@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>One-Line Journal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --bg-soft: #11162a;
+      --card: rgba(255,255,255,0.06);
+      --text: #e9ecff;
+      --muted: #a7aedc;
+      --accent: #8f9bff;
+      --accent-2: #b48cff;
+      --border: rgba(255,255,255,0.08);
+      --radius: 18px;
+      --shadow: 0 20px 60px rgba(0,0,0,0.45);
+      --font: "Aptos", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% -10%, #1a2155, transparent),
+        radial-gradient(800px 500px at 90% 10%, #3a1f4d, transparent),
+        linear-gradient(180deg, #070a14, #0b0f1a);
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin: 0 0 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    button {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0b0f1a;
+      border: none;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .quote {
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    textarea, input {
+      width: 100%;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      padding: 12px;
+      font-size: 1rem;
+      font-family: var(--font);
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .entry {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .entry:last-child {
+      border-bottom: none;
+    }
+
+    .date {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 8px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>One-Line Journal</h1>
+    <div class="subtitle">One sentence per day · saved by ISO date · hashtag-friendly</div>
+
+    <div class="actions">
+      <button onclick="exportData()">Export</button>
+      <button onclick="toggleHistory()">History</button>
+    </div>
+
+    <div class="card">
+      <div class="quote" id="quote"></div>
+
+      <label>Today's line (hashtags like #work #mead #quietwins)</label>
+      <textarea id="entry" rows="2" placeholder="One sentence… add #tags if you want"></textarea>
+
+      <div class="row">
+        <button class="primary" onclick="saveEntry()">Save</button>
+        <button onclick="loadToday()">Load today</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </div>
+
+    <div class="card">
+      <label>Search saved entries by hashtag</label>
+      <input id="search" placeholder="Try: #work or work or #work #mead" oninput="renderHistory()" />
+      <div class="row">
+        <button onclick="clearSearch()">Clear</button>
+      </div>
+      <div id="history"></div>
+    </div>
+  </div>
+
+<script>
+const quotes = [
+  "What you repeat becomes what you believe.",
+  "Quiet consistency outlives loud ambition.",
+  "You don’t need more time — you need less friction.",
+  "Small honest actions compound faster than motivation.",
+  "Attention is the rarest form of generosity.",
+  "Build the life that doesn’t require escape.",
+  "What you do daily decides what you become."
+];
+
+const STORAGE_KEY = "oneLineJournal";
+
+function todayISO() {
+  return new Date().toISOString().slice(0,10);
+}
+
+function getData() {
+  return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+}
+
+function setData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function randomQuote() {
+  document.getElementById("quote").textContent =
+    "“" + quotes[Math.floor(Math.random() * quotes.length)] + "”";
+}
+
+function saveEntry() {
+  const text = document.getElementById("entry").value.trim();
+  if (!text) return;
+
+  const data = getData();
+  data[todayISO()] = text;
+  setData(data);
+  updateStatus();
+  renderHistory();
+}
+
+function loadToday() {
+  const data = getData();
+  document.getElementById("entry").value = data[todayISO()] || "";
+  updateStatus();
+}
+
+function updateStatus() {
+  const data = getData();
+  document.getElementById("status").textContent =
+    data[todayISO()]
+      ? "Saved for today (" + todayISO() + ")"
+      : "Not saved yet (" + todayISO() + ")";
+}
+
+function renderHistory() {
+  const data = getData();
+  const search = document.getElementById("search").value.toLowerCase();
+  const container = document.getElementById("history");
+  container.innerHTML = "";
+
+  const entries = Object.entries(data)
+    .sort((a,b) => b[0].localeCompare(a[0]))
+    .filter(([_, text]) =>
+      search ? text.toLowerCase().includes(search.replace("#","")) : true
+    );
+
+  if (!entries.length) {
+    container.innerHTML = `<div class="empty">No matching entries.</div>`;
+    return;
+  }
+
+  entries.forEach(([date, text]) => {
+    container.innerHTML += `
+      <div class="entry">
+        <div class="date">${date}</div>
+        <div>${text}</div>
+      </div>
+    `;
+  });
+}
+
+function clearSearch() {
+  document.getElementById("search").value = "";
+  renderHistory();
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(getData(), null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "one-line-journal.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function toggleHistory() {
+  document.getElementById("history").scrollIntoView({behavior:"smooth"});
+}
+
+randomQuote();
+loadToday();
+renderHistory();
+</script>
+
+</body>
+</html>
