@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,25 +17,26 @@
 <body>
   <main class="container">
     <header>
-      <h1>One-Line Journal</h1>
+      <div class="header-row">
+        <h1>One-Line Journal</h1>
+
+        <button id="btnTheme" class="secondary small" type="button" title="Toggle theme">
+          Theme
+        </button>
+      </div>
+
       <p class="subtitle">
-        A single thought worth keeping.<br>
-        One quiet line from today.
+        Something that stayed.<br>
+        Hashtags work. Facts appear too.
       </p>
     </header>
-
-    <div class="buttons">
-  <button id="btnExport" class="secondary">Export</button>
-  <button id="btnHistory" class="secondary">History</button>
-</div>
-
 
     <section class="card">
       <div class="quote" id="quoteText">
         “Something today wants remembering.”
       </div>
 
-      <label for="entry" class="label">
+      <label for="todayLine" class="label">
         Today’s line (hashtags welcome ✨)
       </label>
 
@@ -65,11 +66,11 @@
         id="search"
         placeholder="Try: #work or quiet or #mead"
       />
-      
-      <button id="btnClearSearch" class="secondary small">
-  Clear
-</button>
 
+      <div class="buttons">
+        <button id="btnClearSearch" class="secondary small" type="button">Clear</button>
+        <button id="btnHistory" class="secondary small" type="button">History</button>
+      </div>
 
       <div id="results" class="results">
         <p class="muted">
@@ -78,14 +79,13 @@
       </div>
     </section>
 
-    <footer>
-      <button id="exportBtn" class="secondary small">
+    <footer class="footer-row">
+      <button id="btnExport" class="secondary small" type="button">
         Export journal
       </button>
     </footer>
   </main>
 
-  <!-- Script -->
   <script src="app.js"></script>
 </body>
 </html>

@@ -8,20 +8,44 @@
   --border: rgba(255, 255, 255, 0.08);
 }
 
-* {
-  box-sizing: border-box;
+/* Light theme */
+:root[data-theme="light"] {
+  --bg: #f7f8fb;
+  --card: rgba(0, 0, 0, 0.04);
+  --text: #15161a;
+  --muted: rgba(0, 0, 0, 0.55);
+  --border: rgba(0, 0, 0, 0.12);
+  --accent: #c9a227;
+  --accent-soft: rgba(201, 162, 39, 0.20);
 }
+
+/* Gold theme (black + gold) */
+:root[data-theme="gold"] {
+  --bg: #07070a;
+  --card: rgba(255, 215, 0, 0.06);
+  --text: #f5f2e8;
+  --muted: rgba(245, 242, 232, 0.70);
+  --border: rgba(255, 215, 0, 0.22);
+  --accent: #ffd24a;
+  --accent-soft: rgba(255, 210, 74, 0.22);
+}
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: radial-gradient(
-    circle at top,
-    #161925,
-    var(--bg)
-  );
+  background: radial-gradient(circle at top, #161925, var(--bg));
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
   min-height: 100vh;
+}
+
+:root[data-theme="light"] body {
+  background: radial-gradient(circle at top, rgba(0,0,0,0.05), var(--bg));
+}
+
+:root[data-theme="gold"] body {
+  background: radial-gradient(circle at top, rgba(255, 210, 74, 0.10), var(--bg));
 }
 
 .container {
@@ -30,41 +54,49 @@ body {
   padding: 2rem 1.25rem 3rem;
 }
 
-header {
-  margin-bottom: 2rem;
+header { margin-bottom: 1.25rem; }
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 h1 {
   font-size: 2rem;
   font-weight: 600;
-  margin: 0 0 0.5rem 0;
+  margin: 0;
 }
 
 .subtitle {
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.5;
+  margin: 0.75rem 0 0;
 }
 
 .card {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02),
-    rgba(255, 255, 255, 0)
-  );
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 1.25rem;
   margin-bottom: 1.25rem;
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 10px 30px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
-.quote {
-  font-style: italic;
-  color: var(--muted);
-  margin-bottom: 1rem;
+:root[data-theme="light"] .card {
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+:root[data-theme="gold"] .card {
+  box-shadow:
+    0 14px 36px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 210, 74, 0.08);
 }
 
 .label {
@@ -77,7 +109,7 @@ h1 {
 textarea,
 input[type="text"] {
   width: 100%;
-  background: #0d0f14;
+  background: rgba(0,0,0,0.25);
   border: 1px solid var(--border);
   border-radius: 10px;
   color: var(--text);
@@ -85,6 +117,16 @@ input[type="text"] {
   font-family: inherit;
   font-size: 0.95rem;
   resize: none;
+}
+
+:root[data-theme="light"] textarea,
+:root[data-theme="light"] input[type="text"] {
+  background: rgba(255,255,255,0.75);
+}
+
+:root[data-theme="gold"] textarea,
+:root[data-theme="gold"] input[type="text"] {
+  background: rgba(0,0,0,0.35);
 }
 
 textarea:focus,
@@ -96,13 +138,19 @@ input:focus {
 
 textarea::placeholder,
 input::placeholder {
-  color: #6f7482;
+  color: rgba(154, 160, 173, 0.7);
+}
+
+:root[data-theme="light"] textarea::placeholder,
+:root[data-theme="light"] input::placeholder {
+  color: rgba(0, 0, 0, 0.35);
 }
 
 .buttons {
   display: flex;
   gap: 0.5rem;
   margin-top: 0.75rem;
+  flex-wrap: wrap;
 }
 
 button {
@@ -112,19 +160,10 @@ button {
   font-size: 0.9rem;
   cursor: pointer;
   font-family: inherit;
-  transition: transform 0.05s ease, box-shadow 0.05s ease;
+  transition: transform 0.05s ease, box-shadow 0.05s ease, filter 0.15s ease;
 }
 
-button:active {
-  transform: translateY(1px);
-}
-
-button:not(.secondary) {
-  background: var(--accent);
-  color: #0e0f14;
-  font-weight: 500;
-  box-shadow: 0 6px 18px rgba(155, 140, 255, 0.35);
-}
+button:active { transform: translateY(1px); }
 
 button.secondary {
   background: transparent;
@@ -137,36 +176,95 @@ button.small {
   padding: 0.45rem 0.7rem;
 }
 
+/* Save button uses the accent color (purple in dark, gold in light/gold) */
+#btnSave {
+  background: var(--accent);
+  color: #0e0f14;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(155, 140, 255, 0.25);
+}
+
+:root[data-theme="light"] #btnSave {
+  box-shadow: 0 6px 18px rgba(201, 162, 39, 0.22);
+}
+
+/* Extra shine for gold theme */
+:root[data-theme="gold"] #btnSave {
+  background: linear-gradient(135deg, #ffd24a, #caa100);
+  color: #0e0f14;
+  box-shadow: 0 10px 24px rgba(255, 210, 74, 0.22);
+}
+
 .status {
   margin-top: 0.75rem;
   font-size: 0.8rem;
   color: var(--muted);
 }
 
-.results {
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-}
+.results { margin-top: 0.75rem; font-size: 0.9rem; }
 
 .result-item {
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--border);
 }
-
-.result-item:last-child {
-  border-bottom: none;
-}
+.result-item:last-child { border-bottom: none; }
 
 .result-date {
   font-size: 0.75rem;
   color: var(--muted);
+  margin-bottom: 0.15rem;
 }
 
-.muted {
-  color: var(--muted);
-}
+.muted { color: var(--muted); }
 
-footer {
+.footer-row {
   text-align: right;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* ✨ Subtle fade + tiny shimmer for the quote/fact line */
+@keyframes softFadeUp {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes microShine {
+  0%   { transform: translateX(-120%); opacity: 0; }
+  25%  { opacity: 0.12; }
+  70%  { opacity: 0.12; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+.quote {
+  position: relative;
+  overflow: hidden;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.quote.nudge-animate {
+  animation: softFadeUp 420ms ease-out both;
+}
+
+.quote.nudge-animate::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  animation: microShine 1.6s ease-out 120ms 1;
+}
+
+:root[data-theme="light"] .quote.nudge-animate::after {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08), transparent);
+}
+
+:root[data-theme="gold"] .quote.nudge-animate::after {
+  background: linear-gradient(90deg, transparent, rgba(255,210,74,0.18), transparent);
 }
