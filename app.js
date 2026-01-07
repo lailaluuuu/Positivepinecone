@@ -364,6 +364,7 @@ async function getPublicEntries() {
 async function searchEntries(query) {
   const entries = loadAll();
   const searchTerm = query.toLowerCase();
+  console.debug && console.debug('searchEntries()', { query, searchTerm });
   
   return Object.entries(entries)
     .filter(([_, entry]) => !entry.isDeleted)
@@ -436,12 +437,14 @@ async function runSearch() {
     return;
   }
 
+  console.debug && console.debug('runSearch()', { query });
   const results = await searchEntries(query);
   const entriesObj = {};
   results.forEach(e => { entriesObj[e.id] = e; });
   
   if (els.results) {
-    els.results.innerHTML = renderEntries(entriesObj, query);
+    // results are already filtered by searchEntries — avoid re-filtering here
+    els.results.innerHTML = renderEntries(entriesObj, "");
   }
 }
 
