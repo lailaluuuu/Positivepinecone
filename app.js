@@ -268,11 +268,11 @@ function renderEntries(entries, filterQuery = "") {
     return `<div class="muted">No entries yet — your future self is waiting 🙂</div>`;
   }
 
-  // Convert to array and sort by date descending
+  // Convert to array and sort by creation time descending
   const entriesArray = Object.entries(entries)
-    .map(([date, entry]) => ({ date, ...entry }))
+    .map(([id, entry]) => ({ id, ...entry }))
     .filter(item => !item.isDeleted) // Filter out deleted entries
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
 
   const q = (filterQuery || "").trim().toLowerCase();
 
@@ -298,11 +298,11 @@ function renderEntries(entries, filterQuery = "") {
       const privacyBadge = item.isPrivate ? `<span class="badge-private">🔒 Private</span>` : '';
       const tagsHtml = item.tags && item.tags.length > 0 ? `<span class="tags">${item.tags.map(t => escapeHtml(t)).join(' ')}</span>` : '';
       return `
-        <div class="result-item" data-entry-date="${escapeHtml(item.date)}">
+        <div class="result-item" data-entry-id="${escapeHtml(item.id)}">
           <div class="result-date">${escapeHtml(item.date)} ${tagsHtml} ${privacyBadge}</div>
           <div class="result-content">${escapeHtml(item.content)}</div>
           <div class="result-actions">
-            <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.date)}')">Remove from display</button>
+            <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.id)}')">Remove from display</button>
           </div>
         </div>
       `;
@@ -326,32 +326,39 @@ function saveAll(obj) {
 
 /* ---------- API Calls (local storage) ---------- */
 async function saveEntry(date, content, isPrivate, tags) {
+  // Store entries by unique timestamp id so multiple entries per day are allowed.
   const entries = loadAll();
-  entries[date] = {
+  const id = new Date().toISOString();
+  entries[id] = {
+    id,
+    date: todayISO(),
     content,
     isPrivate: isPrivate || false,
     tags: Array.isArray(tags) ? tags : (tags ? tags.split(/\s+/) : []),
     isDeleted: false,
+    createdAt: id,
     updatedAt: new Date().toISOString(),
   };
   saveAll(entries);
-  return { success: true };
+  return { success: true, id };
 }
 
 async function getEntry(date) {
+  // Return the most recent non-deleted entry for a given ISO date (today)
   const entries = loadAll();
-  const entry = entries[date];
-  if (entry && !entry.isDeleted) {
-    return { ...entry, date };
-  }
-  return null;
+  const matches = Object.entries(entries)
+    .map(([id, entry]) => ({ id, ...entry }))
+    .filter(e => !e.isDeleted && e.date === date)
+    .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
+
+  return matches.length ? matches[0] : null;
 }
 
 async function getPublicEntries() {
   const entries = loadAll();
   return Object.entries(entries)
     .filter(([_, entry]) => !entry.isDeleted)
-    .map(([date, entry]) => ({ date, ...entry }));
+    .map(([id, entry]) => ({ id, ...entry }));
 }
 
 async function searchEntries(query) {
@@ -360,22 +367,22 @@ async function searchEntries(query) {
   
   return Object.entries(entries)
     .filter(([_, entry]) => !entry.isDeleted)
-    .filter(([date, entry]) => {
+    .filter(([id, entry]) => {
       const content = (entry.content || "").toLowerCase();
       const tags = entry.tags || [];
       return content.includes(searchTerm) || tags.some(t => t.toLowerCase().includes(searchTerm));
     })
-    .map(([date, entry]) => ({ date, ...entry }))
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .map(([id, entry]) => ({ id, ...entry }))
+    .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
 }
 
-async function deleteFromDisplay(date) {
+async function deleteFromDisplay(id) {
   const confirmed = confirm('Remove this entry from display? (It will still be searchable)');
   if (!confirmed) return;
 
   const entries = loadAll();
-  if (entries[date]) {
-    entries[date].isDeleted = true;
+  if (entries[id]) {
+    entries[id].isDeleted = true;
     saveAll(entries);
     setStatus('Entry removed from display ✓');
     showHistory();
@@ -393,7 +400,8 @@ async function saveToday() {
   const tags = extractTags(content);
   const date = todayISO();
 
-  await saveEntry(date, content, true, tags);
+  // saveEntry will create a timestamp id and record the ISO date internally
+  await saveEntry(todayISO(), content, true, tags);
   setStatus(`Saved ✓ (${date})`);
   if (els.todayInput) els.todayInput.value = "";
   showHistory();
@@ -414,7 +422,7 @@ async function loadToday() {
 async function showHistory() {
   const entries = await getPublicEntries();
   const entriesObj = {};
-  entries.forEach(e => { entriesObj[e.date] = e; });
+  entries.forEach(e => { entriesObj[e.id] = e; });
   
   if (els.results) {
     els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "");
@@ -430,7 +438,7 @@ async function runSearch() {
 
   const results = await searchEntries(query);
   const entriesObj = {};
-  results.forEach(e => { entriesObj[e.date] = e; });
+  results.forEach(e => { entriesObj[e.id] = e; });
   
   if (els.results) {
     els.results.innerHTML = renderEntries(entriesObj, query);
