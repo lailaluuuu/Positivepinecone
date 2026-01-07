@@ -129,6 +129,193 @@
   --accent-soft: rgba(177, 156, 217, 0.15);
 }
 
+/* Pure Black & Gold */
+:root[data-theme="black-gold"] {
+  --bg: #000000;
+  --card: #0d0d0d;
+  --text: #ffd700;
+  --muted: #999900;
+  --border: rgba(255, 215, 0, 0.25);
+  --accent: #ffed4e;
+  --accent-soft: rgba(255, 237, 78, 0.2);
+}
+
+/* Pastel Dream */
+:root[data-theme="pastel"] {
+  --bg: #faf7f2;
+  --card: #f5ede4;
+  --text: #8b7d6b;
+  --muted: #a89a8a;
+  --border: rgba(139, 125, 107, 0.15);
+  --accent: #e8a4c8;
+  --accent-soft: rgba(232, 164, 200, 0.2);
+}
+
+/* Rainbow Neon */
+:root[data-theme="rainbow"] {
+  --bg: #1a0033;
+  --card: #330066;
+  --text: #ff00ff;
+  --muted: #00ffff;
+  --border: rgba(255, 0, 255, 0.3);
+  --accent: #00ff00;
+  --accent-soft: rgba(0, 255, 0, 0.2);
+}
+
+/* Retro 80s */
+:root[data-theme="retro"] {
+  --bg: #0a0e27;
+  --card: #1a1f4d;
+  --text: #ff006d;
+  --muted: #ffd60a;
+  --border: rgba(255, 214, 10, 0.25);
+  --accent: #00d9ff;
+  --accent-soft: rgba(0, 217, 255, 0.15);
+}
+
+/* Cosmic */
+:root[data-theme="cosmic"] {
+  --bg: #0d0b2d;
+  --card: #1a1552;
+  --text: #c7d3ff;
+  --muted: #8892b0;
+  --border: rgba(199, 211, 255, 0.2);
+  --accent: #7c3aed;
+  --accent-soft: rgba(124, 58, 237, 0.15);
+}
+
+/* Cherry Blossom */
+:root[data-theme="cherry"] {
+  --bg: #1a0f1a;
+  --card: #2a1a2a;
+  --text: #ff69b4;
+  --muted: #e6b8d7;
+  --border: rgba(255, 105, 180, 0.2);
+  --accent: #ff1493;
+  --accent-soft: rgba(255, 20, 147, 0.15);
+}
+
+/* Mint Fresh */
+:root[data-theme="mint"] {
+  --bg: #0a1f1f;
+  --card: #1a3333;
+  --text: #7fffd4;
+  --muted: #20b2aa;
+  --border: rgba(127, 255, 212, 0.2);
+  --accent: #00ffa3;
+  --accent-soft: rgba(0, 255, 163, 0.15);
+}
+
+/* Lavender */
+:root[data-theme="lavender"] {
+  --bg: #1a1028;
+  --card: #2a1a3a;
+  --text: #dda0dd;
+  --muted: #ba55d3;
+  --border: rgba(221, 160, 221, 0.2);
+  --accent: #da70d6;
+  --accent-soft: rgba(218, 112, 214, 0.15);
+}
+
+/* Coral Reef */
+:root[data-theme="coral"] {
+  --bg: #0f1210;
+  --card: #1f2a28;
+  --text: #ff7f50;
+  --muted: #ff6347;
+  --border: rgba(255, 127, 80, 0.2);
+  --accent: #ff4500;
+  --accent-soft: rgba(255, 69, 0, 0.15);
+}
+
+/* Electric */
+:root[data-theme="electric"] {
+  --bg: #0a0a14;
+  --card: #1a1a2e;
+  --text: #0ff0ff;
+  --muted: #00ffff;
+  --border: rgba(15, 240, 255, 0.25);
+  --accent: #fff000;
+  --accent-soft: rgba(255, 240, 0, 0.2);
+}
+
+/* Ink & Parchment */
+:root[data-theme="ink"] {
+  --bg: #f4f1de;
+  --card: #e8e4d8;
+  --text: #2d3142;
+  --muted: #4a4e69;
+  --border: rgba(45, 49, 66, 0.15);
+  --accent: #9a8c98;
+  --accent-soft: rgba(154, 140, 152, 0.2);
+}
+
+/* Midnight Star */
+:root[data-theme="midnight"] {
+  --bg: #0c0015;
+  --card: #1a0033;
+  --text: #e8d5ff;
+  --muted: #b8a4d9;
+  --border: rgba(232, 213, 255, 0.15);
+  --accent: #9d4edd;
+  --accent-soft: rgba(157, 78, 221, 0.15);
+}
+
+/* Forest Glow */
+:root[data-theme="glow"] {
+  --bg: #0a1a0a;
+  --card: #1a3a1a;
+  --text: #90ee90;
+  --muted: #32cd32;
+  --border: rgba(144, 238, 144, 0.2);
+  --accent: #00ff00;
+  --accent-soft: rgba(0, 255, 0, 0.15);
+}
+
+/* Deep Wine */
+:root[data-theme="wine"] {
+  --bg: #2a0a1a;
+  --card: #3a1a2a;
+  --text: #e8a4b0;
+  --muted: #c97a88;
+  --border: rgba(232, 164, 176, 0.2);
+  --accent: #d63384;
+  --accent-soft: rgba(214, 51, 132, 0.15);
+}
+
+/* Silver Moon */
+:root[data-theme="silver"] {
+  --bg: #0f1419;
+  --card: #1a2332;
+  --text: #e8e8e8;
+  --muted: #c0c0c0;
+  --border: rgba(232, 232, 232, 0.15);
+  --accent: #c0c0c0;
+  --accent-soft: rgba(192, 192, 192, 0.2);
+}
+
+/* Sunset Glow */
+:root[data-theme="glow-sunset"] {
+  --bg: #1a0a0a;
+  --card: #2a1515;
+  --text: #ffb84d;
+  --muted: #ff8c42;
+  --border: rgba(255, 180, 77, 0.2);
+  --accent: #ff6b35;
+  --accent-soft: rgba(255, 107, 53, 0.15);
+}
+
+/* Ocean Deep */
+:root[data-theme="deep-ocean"] {
+  --bg: #051622;
+  --card: #0a2a3a;
+  --text: #5af0e0;
+  --muted: #2ba396;
+  --border: rgba(90, 240, 224, 0.2);
+  --accent: #00d4d4;
+  --accent-soft: rgba(0, 212, 212, 0.15);
+}
+
 * { box-sizing: border-box; }
 
 body {

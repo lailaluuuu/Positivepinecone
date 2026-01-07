@@ -204,7 +204,11 @@ function extractTags(text) {
 }
 
 /* ---------- Theme ---------- */
-const THEMES = ["dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula", "abyss", "void"];
+const THEMES = [
+  "dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula", 
+  "abyss", "void", "black-gold", "pastel", "rainbow", "retro", "cosmic", "cherry", "mint", "lavender", 
+  "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean"
+];
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
