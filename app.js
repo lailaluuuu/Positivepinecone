@@ -384,7 +384,8 @@ async function deleteFromDisplay(id) {
   if (entries[id]) {
     entries[id].isDeleted = true;
     saveAll(entries);
-    setStatus('Entry removed from display ✓');
+    // keep silent when removing from display
+    setStatus('');
     showHistory();
   }
 }
