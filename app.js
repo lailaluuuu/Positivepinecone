@@ -1,20 +1,20 @@
-/* One-Line Journal — app.js
-   - Saves one entry per day (ISO date)
-   - Supports hashtags (#work #mead)
-   - Search by tag/word
-   - History list
-   - Export JSON
-   - Facts + quotes (50/50)
+/* One-Line Journal — app.js (v2 - Local Storage + File Export)
+   - Saves entries to browser localStorage (private/searchable)
+   - Privacy controls: mark entries as private
+   - Entries can be deleted from display but remain searchable
    - Theme toggle (dark → light → gold, remembers)
+   - Full-text search across all entries
+   - Import/Export JSON for backup
 */
 
 const $ = (sel) => document.querySelector(sel);
 
-const STORAGE_KEY = "oneLineJournal.entries.v1";
+const STORAGE_KEY = "oneLineJournal.entries.v2";
 const THEME_KEY = "oneLineJournal.theme.v2";
 
 const els = {
   todayInput: $("#todayLine"),
+  isPrivateCheckbox: $("#isPrivate"),
   saveBtn: $("#btnSave"),
   loadBtn: $("#btnLoad"),
   exportBtn: $("#btnExport"),
@@ -260,81 +260,179 @@ function escapeHtml(s) {
 }
 
 /* ---------- Rendering ---------- */
-function renderEntries(entriesObj, filterQuery = "") {
-  const all = Object.entries(entriesObj)
+function renderEntries(entries, filterQuery = "") {
+  if (!entries || Object.keys(entries).length === 0) {
+    return `<div class="muted">No entries yet — your future self is waiting 🙂</div>`;
+  }
+
+  // Convert to array and sort by date descending
+  const entriesArray = Object.entries(entries)
     .map(([date, entry]) => ({ date, ...entry }))
+    .filter(item => !item.isDeleted) // Filter out deleted entries
     .sort((a, b) => b.date.localeCompare(a.date));
 
   const q = (filterQuery || "").trim().toLowerCase();
-  let filtered = all;
 
+  let filtered = entriesArray;
   if (q) {
     const terms = q.split(/\s+/).filter(Boolean);
-    filtered = all.filter((item) => {
-      const text = (item.text || "").toLowerCase();
-      const tags = (item.tags || []).map((t) => t.toLowerCase());
+    filtered = entriesArray.filter((item) => {
+      const content = (item.content || "").toLowerCase();
+      const tags = (item.tags || []).map(t => t.toLowerCase());
       return terms.every((term) => {
         if (term.startsWith("#")) return tags.includes(term);
-        return text.includes(term) || tags.some((t) => t.includes(term));
+        return content.includes(term) || tags.some(t => t.includes(term));
       });
     });
   }
 
   if (filtered.length === 0) {
-    return `<div class="muted">No matches yet — try <b>#work</b> or <b>mead</b>.</div>`;
+    return `<div class="muted">No matches — try #work or quiet</div>`;
   }
 
   return filtered
     .map((item) => {
-      const tags = (item.tags || []).join(" ");
+      const privacyBadge = item.isPrivate ? `<span class="badge-private">🔒 Private</span>` : '';
+      const tagsHtml = item.tags && item.tags.length > 0 ? `<span class="tags">${item.tags.map(t => escapeHtml(t)).join(' ')}</span>` : '';
       return `
-        <div class="result-item">
-          <div class="result-date">${escapeHtml(item.date)} ${tags ? "• " + escapeHtml(tags) : ""}</div>
-          <div>${escapeHtml(item.text || "")}</div>
+        <div class="result-item" data-entry-date="${escapeHtml(item.date)}">
+          <div class="result-date">${escapeHtml(item.date)} ${tagsHtml} ${privacyBadge}</div>
+          <div class="result-content">${escapeHtml(item.content)}</div>
+          <div class="result-actions">
+            <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.date)}')">Remove from display</button>
+          </div>
         </div>
       `;
     })
     .join("");
 }
 
-function updateSavedState() {
+/* ---------- Storage ---------- */
+function loadAll() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveAll(obj) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
+}
+
+/* ---------- API Calls (local storage) ---------- */
+async function saveEntry(date, content, isPrivate, tags) {
   const entries = loadAll();
-  const iso = todayISO();
-  setStatus(entries[iso]?.text ? `Saved ✓ (${iso})` : `Not saved yet (${iso})`);
+  entries[date] = {
+    content,
+    isPrivate: isPrivate || false,
+    tags: Array.isArray(tags) ? tags : (tags ? tags.split(/\s+/) : []),
+    isDeleted: false,
+    updatedAt: new Date().toISOString(),
+  };
+  saveAll(entries);
+  return { success: true };
+}
+
+async function getEntry(date) {
+  const entries = loadAll();
+  const entry = entries[date];
+  if (entry && !entry.isDeleted) {
+    return { ...entry, date };
+  }
+  return null;
+}
+
+async function getPublicEntries() {
+  const entries = loadAll();
+  return Object.entries(entries)
+    .filter(([_, entry]) => !entry.isPrivate && !entry.isDeleted)
+    .map(([date, entry]) => ({ date, ...entry }));
+}
+
+async function searchEntries(query) {
+  const entries = loadAll();
+  const searchTerm = query.toLowerCase();
+  
+  return Object.entries(entries)
+    .filter(([_, entry]) => !entry.isDeleted)
+    .filter(([date, entry]) => {
+      const content = (entry.content || "").toLowerCase();
+      const tags = entry.tags || [];
+      return content.includes(searchTerm) || tags.some(t => t.toLowerCase().includes(searchTerm));
+    })
+    .map(([date, entry]) => ({ date, ...entry }))
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+async function deleteFromDisplay(date) {
+  const confirmed = confirm('Remove this entry from display? (It will still be searchable)');
+  if (!confirmed) return;
+
+  const entries = loadAll();
+  if (entries[date]) {
+    entries[date].isDeleted = true;
+    saveAll(entries);
+    setStatus('Entry removed from display ✓');
+    showHistory();
+  }
 }
 
 /* ---------- Actions ---------- */
-function saveToday() {
-  const text = (els.todayInput?.value || "").trim();
-  if (!text) {
+async function saveToday() {
+  const content = (els.todayInput?.value || "").trim();
+  if (!content) {
     setStatus("Write one line first 🙂");
     return;
   }
 
-  const entries = loadAll();
-  const iso = todayISO();
-  entries[iso] = {
-    text,
-    tags: extractTags(text),
-    updatedAt: new Date().toISOString(),
-  };
+  const isPrivate = els.isPrivateCheckbox?.checked || false;
+  const tags = extractTags(content);
+  const date = todayISO();
 
-  saveAll(entries);
-  setStatus(`Saved ✓ (${iso})`);
+  await saveEntry(date, content, isPrivate, tags);
+  setStatus(`Saved ✓ (${date})${isPrivate ? ' (Private)' : ''}`);
   showHistory();
 }
 
-function loadToday() {
-  const entries = loadAll();
-  const iso = todayISO();
-  const existing = entries[iso]?.text || "";
-  if (els.todayInput) els.todayInput.value = existing;
-  setStatus(existing ? `Loaded today (${iso})` : `No entry for today yet (${iso})`);
+async function loadToday() {
+  const date = todayISO();
+  const entry = await getEntry(date);
+
+  if (entry) {
+    if (els.todayInput) els.todayInput.value = entry.content;
+    if (els.isPrivateCheckbox) els.isPrivateCheckbox.checked = entry.isPrivate;
+    setStatus(`Loaded today (${date})`);
+  } else {
+    setStatus(`No entry for today yet (${date})`);
+  }
 }
 
-function showHistory() {
-  const entries = loadAll();
-  if (els.results) els.results.innerHTML = renderEntries(entries, els.searchInput?.value || "");
+async function showHistory() {
+  const entries = await getPublicEntries();
+  const entriesObj = {};
+  entries.forEach(e => { entriesObj[e.date] = e; });
+  
+  if (els.results) {
+    els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "");
+  }
+}
+
+async function runSearch() {
+  const query = (els.searchInput?.value || "").trim();
+  if (!query) {
+    showHistory();
+    return;
+  }
+
+  const results = await searchEntries(query);
+  const entriesObj = {};
+  results.forEach(e => { entriesObj[e.date] = e; });
+  
+  if (els.results) {
+    els.results.innerHTML = renderEntries(entriesObj, query);
+  }
 }
 
 function clearSearch() {
@@ -342,13 +440,12 @@ function clearSearch() {
   showHistory();
 }
 
-function runSearch() {
-  showHistory();
-}
-
-function exportData() {
+async function exportData() {
   const entries = loadAll();
-  const payload = { exportedAt: new Date().toISOString(), entries };
+  const payload = {
+    exportedAt: new Date().toISOString(),
+    entries: entries,
+  };
 
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
@@ -363,6 +460,32 @@ function exportData() {
   URL.revokeObjectURL(url);
   setStatus("Exported ✓ (downloaded JSON)");
 }
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = JSON.parse(event.target.result);
+        const entries = data.entries || {};
+        saveAll(entries);
+        setStatus(`Imported ${Object.keys(entries).length} entries ✓`);
+        showHistory();
+      } catch (err) {
+        setStatus(`Import failed: Invalid JSON`);
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
 
 /* ---------- Bind + Init ---------- */
 function bind() {
@@ -384,7 +507,8 @@ function init() {
   initTheme();
   pickQuote();
   bind();
-  updateSavedState();
+  setStatus("Ready");
+  loadToday();
   showHistory();
 }
 
