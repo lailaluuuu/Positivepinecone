@@ -395,6 +395,7 @@ async function saveToday() {
 
   await saveEntry(date, content, true, tags);
   setStatus(`Saved ✓ (${date})`);
+  if (els.todayInput) els.todayInput.value = "";
   showHistory();
 }
 
