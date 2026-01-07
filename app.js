@@ -203,6 +203,21 @@ function extractTags(text) {
   return [...new Set(matches.map((t) => t.toLowerCase()))];
 }
 
+/* ---------- Mood (Cup) ---------- */
+function getMood() {
+  const moods = ['empty', 'full', 'overflowing'];
+  return moods[Math.floor(Math.random() * moods.length)];
+}
+
+function getMoodEmoji(mood) {
+  const emojis = {
+    empty: '🕳️',
+    full: '�',
+    overflowing: '☀️'
+  };
+  return emojis[mood] || '🕳️';
+}
+
 /* ---------- Theme ---------- */
 const THEMES = [
   "dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula", 
@@ -297,9 +312,10 @@ function renderEntries(entries, filterQuery = "", includeDeleted = false) {
     .map((item) => {
       const privacyBadge = item.isPrivate ? `<span class="badge-private">🔒 Private</span>` : '';
       const tagsHtml = item.tags && item.tags.length > 0 ? `<span class="tags">${item.tags.map(t => escapeHtml(t)).join(' ')}</span>` : '';
+      const moodEmoji = getMoodEmoji(item.mood || 'full');
       return `
         <div class="result-item" data-entry-id="${escapeHtml(item.id)}">
-          <div class="result-date">${escapeHtml(item.date)} ${tagsHtml} ${privacyBadge}</div>
+          <div class="result-date">${escapeHtml(item.date)} <span class="mood-cup">${moodEmoji}</span> ${tagsHtml} ${privacyBadge}</div>
           <div class="result-content">${escapeHtml(item.content)}</div>
           <div class="result-actions">
             <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.id)}')">Remove from display</button>
@@ -335,6 +351,7 @@ async function saveEntry(date, content, isPrivate, tags) {
     content,
     isPrivate: isPrivate || false,
     tags: Array.isArray(tags) ? tags : (tags ? tags.split(/\s+/) : []),
+    mood: getMood(),
     isDeleted: false,
     createdAt: id,
     updatedAt: new Date().toISOString(),

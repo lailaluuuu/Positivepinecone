@@ -501,6 +501,12 @@ button.small {
   margin-bottom: 0.15rem;
 }
 
+.mood-cup {
+  font-size: 0.65rem;
+  opacity: 0.6;
+  margin: 0 0.2rem;
+}
+
 .muted { color: var(--muted); }
 
 .footer-row {
