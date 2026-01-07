@@ -283,7 +283,7 @@ function escapeHtml(s) {
 /* ---------- Rendering ---------- */
 function renderEntries(entries, filterQuery = "", includeDeleted = false) {
   if (!entries || Object.keys(entries).length === 0) {
-    return `<div class="muted">No entries yet — your future self is waiting 🙂</div>`;
+    return `<div class="muted">🐢</div>`;
   }
 
   // Convert to array and sort by creation time descending
