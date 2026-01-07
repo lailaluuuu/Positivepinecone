@@ -204,7 +204,7 @@ function extractTags(text) {
 }
 
 /* ---------- Theme ---------- */
-const THEMES = ["dark", "light", "gold"];
+const THEMES = ["dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula", "abyss", "void"];
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;

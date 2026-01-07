@@ -30,6 +30,105 @@
   --accent-soft: rgba(255, 210, 74, 0.22);
 }
 
+/* Obsidian theme */
+:root[data-theme="obsidian"] {
+  --bg: #0a0a0a;
+  --card: #1a1a1a;
+  --text: #d4d4d4;
+  --muted: #808080;
+  --border: rgba(100, 100, 100, 0.2);
+  --accent: #7b68ee;
+  --accent-soft: rgba(123, 104, 238, 0.1);
+}
+
+/* Cyberpunk theme */
+:root[data-theme="cyberpunk"] {
+  --bg: #0d0221;
+  --card: #1a0033;
+  --text: #ff006e;
+  --muted: #8338ec;
+  --border: rgba(255, 0, 110, 0.2);
+  --accent: #ffbe0b;
+  --accent-soft: rgba(255, 190, 11, 0.15);
+}
+
+/* Forest theme */
+:root[data-theme="forest"] {
+  --bg: #0f1419;
+  --card: #1a2332;
+  --text: #c8e6c9;
+  --muted: #66bb6a;
+  --border: rgba(102, 187, 106, 0.2);
+  --accent: #81c784;
+  --accent-soft: rgba(129, 199, 132, 0.15);
+}
+
+/* Ocean theme */
+:root[data-theme="ocean"] {
+  --bg: #0a1428;
+  --card: #1a3a52;
+  --text: #81d4fa;
+  --muted: #4fc3f7;
+  --border: rgba(129, 212, 250, 0.2);
+  --accent: #29b6f6;
+  --accent-soft: rgba(41, 182, 246, 0.15);
+}
+
+/* Sunset theme */
+:root[data-theme="sunset"] {
+  --bg: #1a0f0f;
+  --card: #2a1a1a;
+  --text: #ffb3a3;
+  --muted: #ff7043;
+  --border: rgba(255, 112, 67, 0.2);
+  --accent: #ff5722;
+  --accent-soft: rgba(255, 87, 34, 0.15);
+}
+
+/* Nord theme */
+:root[data-theme="nord"] {
+  --bg: #2e3440;
+  --card: #3b4252;
+  --text: #eceff4;
+  --muted: #d3d6df;
+  --border: rgba(216, 222, 233, 0.15);
+  --accent: #88c0d0;
+  --accent-soft: rgba(136, 192, 208, 0.15);
+}
+
+/* Dracula theme */
+:root[data-theme="dracula"] {
+  --bg: #282a36;
+  --card: #44475a;
+  --text: #f8f8f2;
+  --muted: #6272a4;
+  --border: rgba(98, 114, 164, 0.3);
+  --accent: #ff79c6;
+  --accent-soft: rgba(255, 121, 198, 0.15);
+}
+
+/* Abyss theme */
+:root[data-theme="abyss"] {
+  --bg: #000814;
+  --card: #0d1117;
+  --text: #a0aec0;
+  --muted: #718096;
+  --border: rgba(160, 174, 192, 0.15);
+  --accent: #4299e1;
+  --accent-soft: rgba(66, 153, 225, 0.15);
+}
+
+/* Void theme */
+:root[data-theme="void"] {
+  --bg: #05050f;
+  --card: #0f0f1f;
+  --text: #e0e0ff;
+  --muted: #a0a0cc;
+  --border: rgba(224, 224, 255, 0.15);
+  --accent: #b19cd9;
+  --accent-soft: rgba(177, 156, 217, 0.15);
+}
+
 * { box-sizing: border-box; }
 
 body {
