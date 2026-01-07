@@ -48,9 +48,23 @@
 
       <div class="mood-picker">
         <div class="mood-buttons">
-          <button id="btnMoodEmpty" class="mood-btn" data-mood="empty" title="Empty">🥛</button>
-          <button id="btnMoodFull" class="mood-btn active" data-mood="full" title="Half-full">🥤</button>
-          <button id="btnMoodOverflow" class="mood-btn" data-mood="overflowing" title="Full">🍷</button>
+          <button id="btnMoodEmpty" class="mood-btn" data-mood="empty" title="Empty">
+            <svg viewBox="0 0 24 32" class="glass-icon">
+              <rect x="6" y="4" width="12" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <button id="btnMoodFull" class="mood-btn active" data-mood="full" title="Half-full">
+            <svg viewBox="0 0 24 32" class="glass-icon">
+              <rect x="6" y="4" width="12" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="6" y="14" width="12" height="10" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </button>
+          <button id="btnMoodOverflow" class="mood-btn" data-mood="overflowing" title="Full">
+            <svg viewBox="0 0 24 32" class="glass-icon">
+              <rect x="6" y="4" width="12" height="20" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <rect x="6" y="4" width="12" height="20" fill="currentColor" opacity="0.5"/>
+            </svg>
+          </button>
         </div>
       </div>
 

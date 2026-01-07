@@ -443,8 +443,7 @@ input::placeholder {
 }
 
 .mood-btn {
-  font-size: 0.8rem;
-  padding: 0.2rem 0.35rem;
+  padding: 0.25rem;
   border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
@@ -454,7 +453,6 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1;
 }
 
 .mood-btn:hover {
