@@ -263,7 +263,7 @@ function escapeHtml(s) {
 }
 
 /* ---------- Rendering ---------- */
-function renderEntries(entries, filterQuery = "") {
+function renderEntries(entries, filterQuery = "", includeDeleted = false) {
   if (!entries || Object.keys(entries).length === 0) {
     return `<div class="muted">No entries yet — your future self is waiting 🙂</div>`;
   }
@@ -271,7 +271,7 @@ function renderEntries(entries, filterQuery = "") {
   // Convert to array and sort by creation time descending
   const entriesArray = Object.entries(entries)
     .map(([id, entry]) => ({ id, ...entry }))
-    .filter(item => !item.isDeleted) // Filter out deleted entries
+    .filter(item => includeDeleted ? true : !item.isDeleted)
     .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
 
   const q = (filterQuery || "").trim().toLowerCase();
@@ -367,7 +367,6 @@ async function searchEntries(query) {
   console.debug && console.debug('searchEntries()', { query, searchTerm });
   
   return Object.entries(entries)
-    .filter(([_, entry]) => !entry.isDeleted)
     .filter(([id, entry]) => {
       const content = (entry.content || "").toLowerCase();
       const tags = entry.tags || [];
@@ -426,7 +425,7 @@ async function showHistory() {
   entries.forEach(e => { entriesObj[e.id] = e; });
   
   if (els.results) {
-    els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "");
+    els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "", false);
   }
 }
 
@@ -444,7 +443,7 @@ async function runSearch() {
   
   if (els.results) {
     // results are already filtered by searchEntries — avoid re-filtering here
-    els.results.innerHTML = renderEntries(entriesObj, "");
+    els.results.innerHTML = renderEntries(entriesObj, "", true);
   }
 }
 
