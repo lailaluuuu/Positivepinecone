@@ -12,6 +12,8 @@ const $ = (sel) => document.querySelector(sel);
 const STORAGE_KEY = "oneLineJournal.entries.v2";
 const THEME_KEY = "oneLineJournal.theme.v2";
 
+let selectedMood = "full"; // Default mood selection
+
 const els = {
   todayInput: $("#todayLine"),
   saveBtn: $("#btnSave"),
@@ -24,6 +26,7 @@ const els = {
   results: $("#results"),
   quote: $("#quoteText"),
   themeBtn: $("#btnTheme"),
+  moodBtns: document.querySelectorAll(".mood-btn"),
 };
 
 const QUOTES = [
@@ -341,7 +344,7 @@ function saveAll(obj) {
 }
 
 /* ---------- API Calls (local storage) ---------- */
-async function saveEntry(date, content, isPrivate, tags) {
+async function saveEntry(date, content, isPrivate, tags, mood = "full") {
   // Store entries by unique timestamp id so multiple entries per day are allowed.
   const entries = loadAll();
   const id = new Date().toISOString();
@@ -351,7 +354,7 @@ async function saveEntry(date, content, isPrivate, tags) {
     content,
     isPrivate: isPrivate || false,
     tags: Array.isArray(tags) ? tags : (tags ? tags.split(/\s+/) : []),
-    mood: getMood(),
+    mood: mood || "full",
     isDeleted: false,
     createdAt: id,
     updatedAt: new Date().toISOString(),
@@ -419,7 +422,7 @@ async function saveToday() {
   const date = todayISO();
 
   // saveEntry will create a timestamp id and record the ISO date internally
-  await saveEntry(todayISO(), content, true, tags);
+  await saveEntry(todayISO(), content, true, tags, selectedMood);
   setStatus(`Saved ✓ (${date})`);
   if (els.todayInput) els.todayInput.value = "";
   showHistory();
@@ -526,6 +529,16 @@ function bind() {
   els.searchInput?.addEventListener("input", runSearch);
   els.clearSearchBtn?.addEventListener("click", clearSearch);
   els.themeBtn?.addEventListener("click", toggleTheme);
+
+  // Mood button clicks
+  els.moodBtns?.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      selectedMood = btn.dataset.mood;
+      // Update active state
+      els.moodBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
 
   // Ctrl/Cmd+Enter = save
   els.todayInput?.addEventListener("keydown", (e) => {

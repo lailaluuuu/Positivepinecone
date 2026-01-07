@@ -46,6 +46,15 @@
         rows="3"
       ></textarea>
 
+      <div class="mood-picker">
+        <label class="label">Pick a mood</label>
+        <div class="mood-buttons">
+          <button id="btnMoodEmpty" class="mood-btn" data-mood="empty" title="Void">🕳️</button>
+          <button id="btnMoodFull" class="mood-btn active" data-mood="full" title="Moon">🌙</button>
+          <button id="btnMoodOverflow" class="mood-btn" data-mood="overflowing" title="Sun">☀️</button>
+        </div>
+      </div>
+
       <div class="buttons">
         <button id="btnSave">Save</button>
         <button id="btnLoad" class="secondary">Load today</button>
