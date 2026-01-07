@@ -14,7 +14,6 @@ const THEME_KEY = "oneLineJournal.theme.v2";
 
 const els = {
   todayInput: $("#todayLine"),
-  isPrivateCheckbox: $("#isPrivate"),
   saveBtn: $("#btnSave"),
   loadBtn: $("#btnLoad"),
   exportBtn: $("#btnExport"),
@@ -387,12 +386,11 @@ async function saveToday() {
     return;
   }
 
-  const isPrivate = els.isPrivateCheckbox?.checked || false;
   const tags = extractTags(content);
   const date = todayISO();
 
-  await saveEntry(date, content, isPrivate, tags);
-  setStatus(`Saved ✓ (${date})${isPrivate ? ' (Private)' : ''}`);
+  await saveEntry(date, content, true, tags);
+  setStatus(`Saved ✓ (${date})`);
   showHistory();
 }
 
@@ -402,7 +400,6 @@ async function loadToday() {
 
   if (entry) {
     if (els.todayInput) els.todayInput.value = entry.content;
-    if (els.isPrivateCheckbox) els.isPrivateCheckbox.checked = entry.isPrivate;
     setStatus(`Loaded today (${date})`);
   } else {
     setStatus(`No entry for today yet (${date})`);
