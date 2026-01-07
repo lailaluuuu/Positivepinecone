@@ -350,7 +350,7 @@ async function getEntry(date) {
 async function getPublicEntries() {
   const entries = loadAll();
   return Object.entries(entries)
-    .filter(([_, entry]) => !entry.isPrivate && !entry.isDeleted)
+    .filter(([_, entry]) => !entry.isDeleted)
     .map(([date, entry]) => ({ date, ...entry }));
 }
 
