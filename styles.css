@@ -443,14 +443,16 @@ input::placeholder {
 }
 
 .mood-btn {
-  font-size: 0.9rem;
-  padding: 0.25rem 0.4rem;
+  padding: 0.25rem;
   border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
   border-radius: 0.25rem;
   transition: all 0.2s;
   opacity: 0.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mood-btn:hover {
@@ -461,6 +463,13 @@ input::placeholder {
   opacity: 1;
   border-color: var(--accent);
   background: var(--accent-soft);
+}
+
+.glass-icon {
+  width: 0.9rem;
+  height: 1.35rem;
+  stroke: currentColor;
+  color: var(--text);
 }
 
 .buttons {

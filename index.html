@@ -48,9 +48,23 @@
 
       <div class="mood-picker">
         <div class="mood-buttons">
-          <button id="btnMoodEmpty" class="mood-btn" data-mood="empty" title="Void">🕳️</button>
-          <button id="btnMoodFull" class="mood-btn active" data-mood="full" title="Moon">🌙</button>
-          <button id="btnMoodOverflow" class="mood-btn" data-mood="overflowing" title="Sun">☀️</button>
+          <button id="btnMoodEmpty" class="mood-btn" data-mood="empty" title="Empty">
+            <svg viewBox="0 0 40 60" class="glass-icon">
+              <path d="M 10 15 L 12 50 Q 12 55 15 55 L 25 55 Q 28 55 28 50 L 30 15 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <button id="btnMoodFull" class="mood-btn active" data-mood="full" title="Half-full">
+            <svg viewBox="0 0 40 60" class="glass-icon">
+              <path d="M 10 15 L 12 50 Q 12 55 15 55 L 25 55 Q 28 55 28 50 L 30 15 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M 12 37 L 28 37 L 28 50 Q 28 55 25 55 L 15 55 Q 12 55 12 50 Z" fill="currentColor" opacity="0.4"/>
+            </svg>
+          </button>
+          <button id="btnMoodOverflow" class="mood-btn" data-mood="overflowing" title="Full">
+            <svg viewBox="0 0 40 60" class="glass-icon">
+              <path d="M 10 15 L 12 50 Q 12 55 15 55 L 25 55 Q 28 55 28 50 L 30 15 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M 12 15 L 28 15 L 28 50 Q 28 55 25 55 L 15 55 Q 12 55 12 50 Z" fill="currentColor" opacity="0.4"/>
+            </svg>
+          </button>
         </div>
       </div>
 
