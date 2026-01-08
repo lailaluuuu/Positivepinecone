@@ -443,7 +443,7 @@ async function loadToday() {
 async function showHistory() {
   const entries = await getPublicEntries();
   const entriesObj = {};
-  entries.forEach(e => { entriesObj[e.id] = e; });
+  entries.forEach((e, idx) => { entriesObj[`${e.id || e.date}__${idx}`] = e; });
   
   if (els.results) {
     els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "", false);
@@ -460,7 +460,7 @@ async function runSearch() {
   console.debug && console.debug('runSearch()', { query });
   const results = await searchEntries(query);
   const entriesObj = {};
-  results.forEach(e => { entriesObj[e.id] = e; });
+  results.forEach((e, idx) => { entriesObj[`${e.id || e.date}__${idx}`] = e; });
   
   if (els.results) {
     // results are already filtered by searchEntries — avoid re-filtering here
