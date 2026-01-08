@@ -12,6 +12,9 @@ const $ = (sel) => document.querySelector(sel);
 const STORAGE_KEY = "oneLineJournal.entries.v2";
 const THEME_KEY = "oneLineJournal.theme.v2";
 
+// Password for viewing all entries (client-side only). Change as you like.
+const SHOW_ALL_PASSWORD = "letmein";
+
 let selectedMood = "full"; // Default mood selection
 
 const els = {
@@ -21,6 +24,7 @@ const els = {
   exportBtn: $("#btnExport"),
   historyBtn: $("#btnHistory"),
   status: $("#status"),
+  showAllBtn: $("#btnShowAll"),
   searchInput: $("#search"),
   clearSearchBtn: $("#btnClearSearch"),
   results: $("#results"),
@@ -468,6 +472,40 @@ async function runSearch() {
   }
 }
 
+async function showAllProtected() {
+  const attempt = prompt('Enter password to view all entries:');
+  if (attempt === null) return; // cancelled
+  if (attempt === SHOW_ALL_PASSWORD) {
+    showAllHistory();
+  } else {
+    alert('Wrong password');
+  }
+}
+
+async function permanentDelete(id) {
+  const confirmed = confirm('Permanently delete this entry? This cannot be undone.');
+  if (!confirmed) return;
+
+  const entries = loadAll();
+  if (entries[id]) {
+    delete entries[id];
+    saveAll(entries);
+    setStatus('');
+    // refresh show-all view
+    showAllHistory();
+  }
+}
+
+async function showAllHistory() {
+  // Render every entry, including those marked deleted
+  const entries = loadAll();
+  const entriesObj = {};
+  Object.entries(entries).forEach(([id, entry]) => { entriesObj[id] = { id, ...entry }; });
+  if (els.results) {
+    els.results.innerHTML = renderEntries(entriesObj, els.searchInput?.value || "", true);
+  }
+}
+
 function clearSearch() {
   if (els.searchInput) els.searchInput.value = "";
   showHistory();
@@ -529,6 +567,7 @@ function bind() {
   els.searchInput?.addEventListener("input", runSearch);
   els.clearSearchBtn?.addEventListener("click", clearSearch);
   els.themeBtn?.addEventListener("click", toggleTheme);
+  els.showAllBtn?.addEventListener("click", showAllHistory);
 
   // Mood button clicks
   els.moodBtns?.forEach(btn => {
