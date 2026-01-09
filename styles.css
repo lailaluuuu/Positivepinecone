@@ -820,35 +820,30 @@ button.small {
   opacity: 0.8;
 }
 
-/* Ensure the photo/paper themes show their background images on the body */
 :root[data-theme="robotheart-drawing"] body {
   background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed, var(--bg);
   background-size: auto 90vh;
   background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
+  background-position: 0% 30%;
 }
 
 :root[data-theme="agendanote-paper"] body {
   background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed, var(--bg);
   background-size: auto 90vh;
   background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
+  background-position: 0% 30%;
 }
 
 :root[data-theme="fieldballoon-photo"] body {
   background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
   background-size: auto 90vh;
   background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
+  background-position: 0% 30%;
 }
 
 :root[data-theme="boatballoon-photo"] body {
   background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
   background-size: auto 90vh;
   background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
+  background-position: 0% 30%;
 }
