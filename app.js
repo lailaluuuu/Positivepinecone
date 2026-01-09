@@ -1,3 +1,20 @@
+// --- DOM Elements ---
+const els = {
+  todayInput: document.getElementById('todayLine'),
+  saveBtn: document.getElementById('btnSave'),
+  loadBtn: document.getElementById('btnLoad'),
+  exportBtn: document.getElementById('btnExport'),
+  importBtn: document.getElementById('btnImport'),
+  historyBtn: document.getElementById('btnHistory'),
+  showAllBtn: document.getElementById('btnShowAll'),
+  searchInput: document.getElementById('search'),
+  clearSearchBtn: document.getElementById('btnClearSearch'),
+  results: document.getElementById('results'),
+  status: document.getElementById('status'),
+  quote: document.getElementById('quoteText'),
+  themeBtn: document.getElementById('btnTheme'),
+  moodBtns: Array.from(document.querySelectorAll('.mood-btn')),
+};
 // Initialize theme and event bindings on page load
 window.addEventListener('DOMContentLoaded', () => {
   if (typeof initTheme === 'function') initTheme();
