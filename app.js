@@ -586,9 +586,9 @@ async function exportData() {
 }
 
 function importData() {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = '.json';
+  const input = document.getElementById('importFile');
+  if (!input) return;
+  input.value = '';
   input.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -621,6 +621,12 @@ function bind() {
   els.clearSearchBtn?.addEventListener("click", clearSearch);
   els.themeBtn?.addEventListener("click", toggleTheme);
   els.showAllBtn?.addEventListener("click", showAllHistory);
+
+  // Import button
+  const importBtn = document.getElementById('btnImport');
+  if (importBtn) {
+    importBtn.addEventListener('click', importData);
+  }
 
   // Mood button clicks
   els.moodBtns?.forEach(btn => {
