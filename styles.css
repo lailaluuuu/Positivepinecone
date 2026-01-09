@@ -65,6 +65,7 @@
   background-position-x: 0%;
   background-position-y: 30%;
 }
+
 :root[data-theme="robotheart"] {
   --bg: #f7f3e7;
   --card: rgba(255,255,255,0.10);
@@ -80,6 +81,7 @@
   background-position-x: 0%;
   background-position-y: 30%;
 }
+
 :root[data-theme="agendanote"] {
   --bg: #f7f7f2;
   --card: rgba(255,255,255,0.10);
@@ -95,6 +97,7 @@
   background-position-x: 0%;
   background-position-y: 30%;
 }
+
 :root[data-theme="fieldballoon"] {
   --bg: #eae7d6;
   --card: rgba(255,255,255,0.10);
@@ -110,6 +113,7 @@
   background-position-x: 0%;
   background-position-y: 30%;
 }
+
 :root[data-theme="boatballoon"] {
   --bg: #222933;
   --card: rgba(255,255,255,0.10);
@@ -125,6 +129,7 @@
   background-position-x: 0%;
   background-position-y: 30%;
 }
+
 :root[data-theme="kaomoji"] {
   --bg: #f8f6fa;
   --card: #f3eaf7;
@@ -141,6 +146,7 @@
   background-position-x: 0%;
   background-position-y: 10%;
 }
+
 :root {
   --bg: #0f1115;
   --card: #171a21;
@@ -677,6 +683,7 @@ button.small {
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--border);
 }
+
 .result-item:last-child { border-bottom: none; }
 
 .result-date {
@@ -820,30 +827,48 @@ button.small {
   opacity: 0.8;
 }
 
+/* === Photo themes: full-background images + layout shift === */
+
 :root[data-theme="robotheart-drawing"] body {
-  background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position: 0% 30%;
+  background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed;
+  background-size: cover;
+  background-color: var(--bg);
 }
 
 :root[data-theme="agendanote-paper"] body {
-  background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position: 0% 30%;
+  background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed;
+  background-size: cover;
+  background-color: var(--bg);
 }
 
 :root[data-theme="fieldballoon-photo"] body {
-  background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position: 0% 30%;
+  background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed;
+  background-size: cover;
+  background-color: var(--bg);
 }
 
 :root[data-theme="boatballoon-photo"] body {
-  background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position: 0% 30%;
+  background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed;
+  background-size: cover;
+  background-color: var(--bg);
+}
+
+/* Move the main content to the right on photo themes so it doesn’t overlap the image */
+:root[data-theme="robotheart-drawing"] .container,
+:root[data-theme="agendanote-paper"] .container,
+:root[data-theme="fieldballoon-photo"] .container,
+:root[data-theme="boatballoon-photo"] .container {
+  margin-left: clamp(260px, 32vw, 420px);
+  margin-right: 2rem;
+}
+
+/* On smaller screens, go back to centred layout */
+@media (max-width: 900px) {
+  :root[data-theme="robotheart-drawing"] .container,
+  :root[data-theme="agendanote-paper"] .container,
+  :root[data-theme="fieldballoon-photo"] .container,
+  :root[data-theme="boatballoon-photo"] .container {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
