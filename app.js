@@ -17,6 +17,32 @@ const THEME_ORDER = [
   'wine', 'silver', 'glow-sunset', 'deep-ocean'
 ];
 
+// Little quotes & facts for the top line
+const FACTS = [
+  'Something today wants remembering.',
+  'Sharks existed before trees.',
+  'Some sharks are older than the rings of Saturn.',
+  'Pigeons were once used to guide missiles.',
+  'Octopuses have three hearts and still get overwhelmed.',
+  'A group of flamingos is called a flamboyance.',
+  'Octopuses can taste with their arms.',
+  'Bees can recognise human faces.',
+  'Some turtles breathe through their butts.',
+  'Wombat poop is cube-shaped.',
+  'Butterflies remember being caterpillars.',
+  'Rats laugh when tickled.',
+  'Ants hold funerals.',
+  'Sloths can hold their breath longer than dolphins.',
+  'Elephants have rituals for mourning the dead — they return to bones years later.',
+  'Cleopatra lived closer to the invention of the iPhone than to the pyramids being built.',
+  'Oxford University is older than the Aztec Empire.',
+  'The Eiffel Tower grows a little in summer heat.',
+  'Time moves slightly faster at the top of your head than at your feet.',
+  'You are made of atoms forged in dying stars.',
+  'Noticing is a skill.',
+  'Learning something small can change the day.'
+];
+
 // ---------- DOM Elements ----------
 const els = {
   todayInput: document.getElementById('todayLine'),
@@ -75,9 +101,15 @@ function getMoodIcon(mood) {
   return '🍵 full';
 }
 
-// ---------- Quote animation (no content change) ----------
+// ---------- Quote animation + rotation ----------
 function nudgeQuote() {
   if (!els.quoteText) return;
+
+  const fallback = 'Something today wants remembering.';
+  const msg = FACTS[Math.floor(Math.random() * FACTS.length)] || fallback;
+
+  els.quoteText.textContent = `“${msg}”`;
+
   els.quoteText.classList.remove('nudge-animate');
   void els.quoteText.offsetWidth; // force reflow
   els.quoteText.classList.add('nudge-animate');
@@ -292,7 +324,10 @@ async function exportData() {
     isPrivate: e.isPrivate, isDeleted: e.isDeleted,
     mood: e.mood, createdAt: e.createdAt, updatedAt: e.updatedAt
   }));
-  const blob = new Blob([JSON.stringify({ exportedAt: new Date().toISOString(), entries: minimal }, null, 2)], { type: 'application/json' });
+  const blob = new Blob(
+    [JSON.stringify({ exportedAt: new Date().toISOString(), entries: minimal }, null, 2)],
+    { type: 'application/json' }
+  );
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
