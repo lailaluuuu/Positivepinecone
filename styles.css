@@ -1,3 +1,70 @@
+/* Robot Heart Balloon Drawing Theme */
+:root[data-theme="robotheart-drawing"] {
+  --bg: #f7f3e7;
+  --card: rgba(255,255,255,0.10);
+  --text: #2d2d2d;
+  --muted: #bfae8c;
+  --border: #bfae8c;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed, var(--bg);
+  background-size: auto 90vh;
+  background-blend-mode: lighten;
+  background-position-x: 0%;
+  background-position-y: 30%;
+}
+
+/* Agenda Note Theme */
+:root[data-theme="agendanote-paper"] {
+  --bg: #f7f7f2;
+  --card: rgba(255,255,255,0.10);
+  --text: #232323;
+  --muted: #888;
+  --border: #bbb;
+  --accent: #4a4a4a;
+  --accent-soft: #eaeaea;
+  font-family: 'Courier New', Courier, monospace;
+  background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed, var(--bg);
+  background-size: auto 90vh;
+  background-blend-mode: lighten;
+  background-position-x: 0%;
+  background-position-y: 30%;
+}
+
+/* Field Balloon Photo Theme */
+:root[data-theme="fieldballoon-photo"] {
+  --bg: #eae7d6;
+  --card: rgba(255,255,255,0.10);
+  --text: #3a2c1a;
+  --muted: #bfae8c;
+  --border: #bfae8c;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
+  background-size: auto 90vh;
+  background-blend-mode: lighten;
+  background-position-x: 0%;
+  background-position-y: 30%;
+}
+
+/* Boat Balloon Photo Theme */
+:root[data-theme="boatballoon-photo"] {
+  --bg: #222933;
+  --card: rgba(255,255,255,0.10);
+  --text: #f3f3f3;
+  --muted: #bfc9d1;
+  --border: #a0aab7;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
+  background-size: auto 90vh;
+  background-blend-mode: lighten;
+  background-position-x: 0%;
+  background-position-y: 30%;
+}
 :root[data-theme="robotheart"] {
   --bg: #f7f3e7;
   --card: rgba(255,255,255,0.10);

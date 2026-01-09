@@ -334,7 +334,9 @@ const THEMES = [
   "dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula",
   "abyss", "void", "black-gold", "pastel", "rainbow", "retro", "cosmic", "cherry", "mint", "lavender",
   "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji", "boatballoon", "fieldballoon", "agendanote", "robotheart"
-];
+    // New image themes
+    "robotheart-drawing", "agendanote-paper", "fieldballoon-photo", "boatballoon-photo"
+  ];
 
 const KAOMOJIS = [
   // Cute
