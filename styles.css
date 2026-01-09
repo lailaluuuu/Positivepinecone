@@ -8,11 +8,6 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
 
 /* Agenda Note Theme */
@@ -25,11 +20,6 @@
   --accent: #4a4a4a;
   --accent-soft: #eaeaea;
   font-family: 'Courier New', Courier, monospace;
-  background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
 
 /* Field Balloon Photo Theme */
@@ -42,11 +32,6 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
 
 /* Boat Balloon Photo Theme */
@@ -59,13 +44,9 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
 
+/* Old non-photo variants (still usable if you cycle them) */
 :root[data-theme="robotheart"] {
   --bg: #f7f3e7;
   --card: rgba(255,255,255,0.10);
@@ -75,13 +56,7 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/robot-heart-balloon.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
-
 :root[data-theme="agendanote"] {
   --bg: #f7f7f2;
   --card: rgba(255,255,255,0.10);
@@ -91,13 +66,7 @@
   --accent: #4a4a4a;
   --accent-soft: #eaeaea;
   font-family: 'Courier New', Courier, monospace;
-  background: url('backgrounds/agenda-note.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
-
 :root[data-theme="fieldballoon"] {
   --bg: #eae7d6;
   --card: rgba(255,255,255,0.10);
@@ -107,13 +76,7 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/field-balloon.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
-
 :root[data-theme="boatballoon"] {
   --bg: #222933;
   --card: rgba(255,255,255,0.10);
@@ -123,13 +86,9 @@
   --accent: #e85c7a;
   --accent-soft: #f7e3f0;
   font-family: 'Inter', sans-serif;
-  background: url('backgrounds/boat-balloon.jpg') no-repeat left center fixed, var(--bg);
-  background-size: auto 90vh;
-  background-blend-mode: lighten;
-  background-position-x: 0%;
-  background-position-y: 30%;
 }
 
+/* Kaomoji theme */
 :root[data-theme="kaomoji"] {
   --bg: #f8f6fa;
   --card: #f3eaf7;
@@ -139,8 +98,6 @@
   --accent: #e48ccf;
   --accent-soft: #f7e3f0;
   font-family: 'Noto Sans JP', 'Inter', sans-serif;
-  /* Kaomoji background */
-  background-image: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><text x="10" y="40" font-size="22" fill="%23a14a76" fill-opacity="0.10">♡ ⊹ ₊ .♡ ‧₊˚. · ˚⊹ ⋆ ╭◜◝ ͡ ◜◝╮ ⋆╭◜◝ ͡ ◜◝╮. ⊹ ( .◜◡◝ )♡ ( .◜◡◝ ) ₊ ♡ ╰◟◞ ͜ ◟◞╭◜◝ ͡ ◜◝╮ ͜ ◟◞╯. ⊹ ⋆ . ⋆ ♡︎ ⊹ ( .◜◡◝ ) ₊ . ⊹ ♡ ₊ 　⋆ ╰◟◞ ͜ ◟◞╯ . ⊹ ⋆♡ . ⊹ (๑˃ᴗ˂)ﻭ (•̤̀ᵕ•̤́๑)♡ (づ｡◕‿‿◕｡)づ ( ´ ꒳ ` )੭ ( ˘͈ ᵕ ˘͈♡) (ᵔ ᵕ ᵔ)✧ (¬‿¬ ) (￣﹃￣) (≖‿≖ ) (๑˃́ε˂̀๑ ) (⊙_◎) (°ロ°) !? (ﾉಥ益ಥ)ﾉ (╯°□°)╯︵ ┻━┻ (☉｡☉)! ( ˘͈ ᵕ ˘͈ ) (っ´▽)っ (´｡• ω •｡) ⊹(｡•́‿•̀｡)⊹ (ෆ˙ᵕ˙ෆ) ( ͡° ͜ʖ ͡°) ( •͈ᴗ•͈) (๑ˊ͈ ꇴ ˋ͈) (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄) ( ˵ ͡° ͜ʖ ͡°˵ ) ( -_-) zzz (。-ω-)zzz (｡•́︿•̀｡) (︶ω︶) (´-﹏-`；) (￣□￣") (◎_◎;) (ಥ﹏ಥ) (Ｔ▽Ｔ) (´；д；`)</text></svg>');
   background-repeat: repeat-y;
   background-size: 220px auto;
   background-position-x: 0%;
@@ -465,6 +422,8 @@
   --accent-soft: rgba(0, 212, 212, 0.15);
 }
 
+/* ---------- Layout ---------- */
+
 * { box-sizing: border-box; }
 
 body {
@@ -481,6 +440,58 @@ body {
 
 :root[data-theme="gold"] body {
   background: radial-gradient(circle at top, rgba(255, 210, 74, 0.10), var(--bg));
+}
+
+/* Photo themes: show full image on the left & push content right (no overlap) */
+@media (min-width: 960px) {
+  :root[data-theme="boatballoon-photo"] body {
+    background:
+      url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed,
+      radial-gradient(circle at top, #161925, var(--bg));
+    background-size: auto 95vh, auto;
+    background-position: 0% 50%, center;
+  }
+
+  :root[data-theme="fieldballoon-photo"] body {
+    background:
+      url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed,
+      radial-gradient(circle at top, #161925, var(--bg));
+    background-size: auto 95vh, auto;
+    background-position: 0% 50%, center;
+  }
+
+  :root[data-theme="agendanote-paper"] body {
+    background:
+      url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed,
+      radial-gradient(circle at top, #161925, var(--bg));
+    background-size: auto 95vh, auto;
+    background-position: 0% 40%, center;
+  }
+
+  :root[data-theme="robotheart-drawing"] body {
+    background:
+      url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed,
+      radial-gradient(circle at top, #161925, var(--bg));
+    background-size: auto 95vh, auto;
+    background-position: 0% 40%, center;
+  }
+
+  :root[data-theme="boatballoon-photo"] .container,
+  :root[data-theme="fieldballoon-photo"] .container,
+  :root[data-theme="agendanote-paper"] .container,
+  :root[data-theme="robotheart-drawing"] .container {
+    margin-left: clamp(320px, 40vw, 460px);
+  }
+}
+
+@media (max-width: 959px) {
+  /* On smaller screens, fall back to normal centred layout */
+  :root[data-theme="boatballoon-photo"] body,
+  :root[data-theme="fieldballoon-photo"] body,
+  :root[data-theme="agendanote-paper"] body,
+  :root[data-theme="robotheart-drawing"] body {
+    background: radial-gradient(circle at top, #161925, var(--bg));
+  }
 }
 
 .container {
@@ -652,7 +663,7 @@ button.small {
   padding: 0.45rem 0.7rem;
 }
 
-/* Save button uses the accent color (purple in dark, gold in light/gold) */
+/* Save button */
 #btnSave {
   background: var(--accent);
   color: #0e0f14;
@@ -664,7 +675,6 @@ button.small {
   box-shadow: 0 6px 18px rgba(201, 162, 39, 0.22);
 }
 
-/* Extra shine for gold theme */
 :root[data-theme="gold"] #btnSave {
   background: linear-gradient(135deg, #ffd24a, #caa100);
   color: #0e0f14;
@@ -683,7 +693,6 @@ button.small {
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--border);
 }
-
 .result-item:last-child { border-bottom: none; }
 
 .result-date {
@@ -705,7 +714,7 @@ button.small {
   margin-top: 1rem;
 }
 
-/* ✨ Subtle fade + tiny shimmer for the quote/fact line */
+/* ✨ Quote / fact animation */
 @keyframes softFadeUp {
   from { opacity: 0; transform: translateY(3px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -752,7 +761,7 @@ button.small {
   background: linear-gradient(90deg, transparent, rgba(255,210,74,0.18), transparent);
 }
 
-/* Result Items */
+/* Result Items (card style) */
 .result-item {
   padding: 1rem;
   margin-bottom: 0.75rem;
@@ -827,48 +836,15 @@ button.small {
   opacity: 0.8;
 }
 
-/* === Photo themes: full-background images + layout shift === */
-
-:root[data-theme="robotheart-drawing"] body {
-  background: url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed;
-  background-size: cover;
-  background-color: var(--bg);
-}
-
-:root[data-theme="agendanote-paper"] body {
-  background: url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed;
-  background-size: cover;
-  background-color: var(--bg);
-}
-
-:root[data-theme="fieldballoon-photo"] body {
-  background: url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed;
-  background-size: cover;
-  background-color: var(--bg);
-}
-
-:root[data-theme="boatballoon-photo"] body {
-  background: url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed;
-  background-size: cover;
-  background-color: var(--bg);
-}
-
-/* Move the main content to the right on photo themes so it doesn’t overlap the image */
-:root[data-theme="robotheart-drawing"] .container,
-:root[data-theme="agendanote-paper"] .container,
-:root[data-theme="fieldballoon-photo"] .container,
-:root[data-theme="boatballoon-photo"] .container {
-  margin-left: clamp(260px, 32vw, 420px);
-  margin-right: 2rem;
-}
-
-/* On smaller screens, go back to centred layout */
-@media (max-width: 900px) {
-  :root[data-theme="robotheart-drawing"] .container,
-  :root[data-theme="agendanote-paper"] .container,
-  :root[data-theme="fieldballoon-photo"] .container,
-  :root[data-theme="boatballoon-photo"] .container {
-    margin-left: auto;
-    margin-right: auto;
-  }
+/* Tiny theme indicator in bottom-left */
+.theme-indicator {
+  position: fixed;
+  left: 10px;
+  bottom: 8px;
+  font-size: 0.7rem;
+  color: var(--muted);
+  opacity: 0.6;
+  pointer-events: none;
+  user-select: none;
+  z-index: 20;
 }

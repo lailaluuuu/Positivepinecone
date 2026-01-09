@@ -17,6 +17,51 @@ const THEME_ORDER = [
   'wine', 'silver', 'glow-sunset', 'deep-ocean'
 ];
 
+// Human-friendly names for the tiny label at the bottom
+const THEME_LABELS = {
+  dark: 'Dark',
+  light: 'Light',
+  gold: 'Gold',
+
+  'robotheart-drawing': 'Robot heart drawing',
+  'agendanote-paper': 'Agenda note paper',
+  'fieldballoon-photo': 'Field balloon photo',
+  'boatballoon-photo': 'Boat balloon photo',
+
+  robotheart: 'Robot heart',
+  agendanote: 'Agenda note',
+  fieldballoon: 'Field balloon',
+  boatballoon: 'Boat balloon',
+
+  kaomoji: 'Kaomoji',
+  pastel: 'Pastel dream',
+  rainbow: 'Rainbow neon',
+  retro: 'Retro 80s',
+  cosmic: 'Cosmic',
+  cherry: 'Cherry blossom',
+  mint: 'Mint',
+  lavender: 'Lavender',
+  coral: 'Coral reef',
+  electric: 'Electric',
+  ink: 'Ink & parchment',
+  obsidian: 'Obsidian',
+  cyberpunk: 'Cyberpunk',
+  forest: 'Forest',
+  ocean: 'Ocean',
+  sunset: 'Sunset',
+  nord: 'Nord',
+  dracula: 'Dracula',
+  abyss: 'Abyss',
+  void: 'Void',
+  'black-gold': 'Black & gold',
+  midnight: 'Midnight star',
+  glow: 'Forest glow',
+  wine: 'Deep wine',
+  silver: 'Silver moon',
+  'glow-sunset': 'Sunset glow',
+  'deep-ocean': 'Deep ocean'
+};
+
 // Little quotes & facts for the top line
 const FACTS = [
   'Something today wants remembering.',
@@ -58,7 +103,8 @@ const els = {
   status: document.getElementById('status'),
   themeBtn: document.getElementById('btnTheme'),
   moodBtns: Array.from(document.querySelectorAll('.mood-btn') || []),
-  quoteText: document.getElementById('quoteText')
+  quoteText: document.getElementById('quoteText'),
+  themeIndicator: document.getElementById('themeIndicator')
 };
 
 let selectedMood = 'full'; // matches default active in HTML
@@ -366,6 +412,13 @@ function importData() {
 }
 
 // ---------- Theme ----------
+function updateThemeIndicator(themeId) {
+  const el = els.themeIndicator || document.getElementById('themeIndicator');
+  if (!el) return;
+  const label = THEME_LABELS[themeId] || themeId;
+  el.textContent = `Theme: ${label}`;
+}
+
 function initTheme() {
   const root = document.documentElement;
   const stored = localStorage.getItem(THEME_KEY);
@@ -374,6 +427,7 @@ function initTheme() {
   if (!THEME_ORDER.includes(current)) current = 'dark';
   root.setAttribute('data-theme', current);
   localStorage.setItem(THEME_KEY, current);
+  updateThemeIndicator(current);
 }
 
 function toggleTheme() {
@@ -384,6 +438,7 @@ function toggleTheme() {
   const next = THEME_ORDER[(idx + 1) % THEME_ORDER.length];
   root.setAttribute('data-theme', next);
   localStorage.setItem(THEME_KEY, next);
+  updateThemeIndicator(next);
 }
 
 // ---------- Bind + Init ----------
