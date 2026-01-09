@@ -442,14 +442,14 @@ body {
   background: radial-gradient(circle at top, rgba(255, 210, 74, 0.10), var(--bg));
 }
 
-/* Photo themes: show full image on the left & push content right (no overlap) */
+/* Photo themes — desktop: image on left, journal snug beside it */
 @media (min-width: 960px) {
   :root[data-theme="boatballoon-photo"] body {
     background:
       url('backgrounds/boat-balloon-photo.jpg') no-repeat left center fixed,
       radial-gradient(circle at top, #161925, var(--bg));
     background-size: auto 95vh, auto;
-    background-position: 0% 50%, center;
+    background-position: 3% 50%, center;
   }
 
   :root[data-theme="fieldballoon-photo"] body {
@@ -457,7 +457,7 @@ body {
       url('backgrounds/field-balloon-photo.jpg') no-repeat left center fixed,
       radial-gradient(circle at top, #161925, var(--bg));
     background-size: auto 95vh, auto;
-    background-position: 0% 50%, center;
+    background-position: 3% 50%, center;
   }
 
   :root[data-theme="agendanote-paper"] body {
@@ -465,7 +465,7 @@ body {
       url('backgrounds/agenda-note-paper.jpg') no-repeat left center fixed,
       radial-gradient(circle at top, #161925, var(--bg));
     background-size: auto 95vh, auto;
-    background-position: 0% 40%, center;
+    background-position: 3% 40%, center;
   }
 
   :root[data-theme="robotheart-drawing"] body {
@@ -473,24 +473,31 @@ body {
       url('backgrounds/robot-heart-drawing.jpg') no-repeat left center fixed,
       radial-gradient(circle at top, #161925, var(--bg));
     background-size: auto 95vh, auto;
-    background-position: 0% 40%, center;
+    background-position: 3% 40%, center;
   }
 
+  /* nudge journal closer to the photo */
   :root[data-theme="boatballoon-photo"] .container,
   :root[data-theme="fieldballoon-photo"] .container,
   :root[data-theme="agendanote-paper"] .container,
   :root[data-theme="robotheart-drawing"] .container {
-    margin-left: clamp(320px, 40vw, 460px);
+    margin-left: clamp(280px, 34vw, 400px) !important;
   }
 }
 
+/* Photo themes — mobile/tablet: keep image visible behind */
 @media (max-width: 959px) {
-  /* On smaller screens, fall back to normal centred layout */
-  :root[data-theme="boatballoon-photo"] body,
-  :root[data-theme="fieldballoon-photo"] body,
-  :root[data-theme="agendanote-paper"] body,
+  :root[data-theme="boatballoon-photo"] body {
+    background: url('backgrounds/boat-balloon-photo.jpg') center top / cover no-repeat fixed;
+  }
+  :root[data-theme="fieldballoon-photo"] body {
+    background: url('backgrounds/field-balloon-photo.jpg') center top / cover no-repeat fixed;
+  }
+  :root[data-theme="agendanote-paper"] body {
+    background: url('backgrounds/agenda-note-paper.jpg') center top / cover no-repeat fixed;
+  }
   :root[data-theme="robotheart-drawing"] body {
-    background: radial-gradient(circle at top, #161925, var(--bg));
+    background: url('backgrounds/robot-heart-drawing.jpg') center top / cover no-repeat fixed;
   }
 }
 
