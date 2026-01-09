@@ -282,7 +282,7 @@ function getMoodEmoji(mood) {
 const THEMES = [
   "dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula",
   "abyss", "void", "black-gold", "pastel", "rainbow", "retro", "cosmic", "cherry", "mint", "lavender",
-  "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji"
+  "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji", "boatballoon", "fieldballoon", "agendanote", "robotheart"
 ];
 
 const KAOMOJIS = [
@@ -308,33 +308,9 @@ const KAOMOJIS = [
   '• (￣□￣」)', '• (◎_◎;)', '• (ಥ﹏ಥ)', '• (Ｔ▽Ｔ)', '• (´；д；`)',
 ];
 
-function showKaomojiBanner() {
-  let banner = document.getElementById('kaomojiBanner');
-  if (!banner) {
-    banner = document.createElement('div');
-    banner.id = 'kaomojiBanner';
-    banner.style.textAlign = 'center';
-    banner.style.fontSize = '1.5em';
-    banner.style.margin = '10px 0 20px 0';
-    banner.style.lineHeight = '2';
-    banner.style.userSelect = 'text';
-    document.body.prepend(banner);
-  }
-  banner.innerHTML = KAOMOJIS.map(k => `<span style="margin:0 0.5em;">${k}</span>`).join('');
-}
-
-function hideKaomojiBanner() {
-  const banner = document.getElementById('kaomojiBanner');
-  if (banner) banner.remove();
-}
 
 function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
-  if (theme === "kaomoji") {
-    showKaomojiBanner();
-  } else {
-    hideKaomojiBanner();
-  }
 }
 
 function initTheme() {
@@ -702,9 +678,6 @@ function init() {
   setStatus("Ready");
   loadToday();
   showHistory();
-  if (document.documentElement.dataset.theme === "kaomoji") {
-    showKaomojiBanner();
-  }
 }
 
 init();

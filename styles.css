@@ -1,13 +1,64 @@
-/* Japanese Kaomoji theme */
+:root[data-theme="robotheart"] {
+  --bg: #f7f3e7;
+  --card: rgba(255,255,255,0.10);
+  --text: #2d2d2d;
+  --muted: #bfae8c;
+  --border: #bfae8c;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/robot-heart-balloon.jpg') no-repeat center center fixed, var(--bg);
+  background-size: cover;
+}
+:root[data-theme="agendanote"] {
+  --bg: #f7f7f2;
+  --card: rgba(255,255,255,0.10);
+  --text: #232323;
+  --muted: #888;
+  --border: #bbb;
+  --accent: #4a4a4a;
+  --accent-soft: #eaeaea;
+  font-family: 'Courier New', Courier, monospace;
+  background: url('backgrounds/agenda-note.jpg') no-repeat center center fixed, var(--bg);
+  background-size: cover;
+}
+:root[data-theme="fieldballoon"] {
+  --bg: #eae7d6;
+  --card: rgba(255,255,255,0.10);
+  --text: #3a2c1a;
+  --muted: #bfae8c;
+  --border: #bfae8c;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/field-balloon.jpg') no-repeat center center fixed, var(--bg);
+  background-size: cover;
+}
+:root[data-theme="boatballoon"] {
+  --bg: #222933;
+  --card: rgba(255,255,255,0.10);
+  --text: #f3f3f3;
+  --muted: #bfc9d1;
+  --border: #a0aab7;
+  --accent: #e85c7a;
+  --accent-soft: #f7e3f0;
+  font-family: 'Inter', sans-serif;
+  background: url('backgrounds/boat-balloon.jpg') no-repeat center center fixed, var(--bg);
+  background-size: cover;
+}
 :root[data-theme="kaomoji"] {
-  --bg: #fff7f0;
-  --card: #ffeefc;
+  --bg: #f8f6fa;
+  --card: #f3eaf7;
   --text: #a14a76;
   --muted: #bfa2c9;
-  --border: #f7cfe3;
+  --border: #e7cbe3;
   --accent: #e48ccf;
   --accent-soft: #f7e3f0;
   font-family: 'Noto Sans JP', 'Inter', sans-serif;
+  /* Kaomoji background */
+  background-image: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><text x="10" y="40" font-size="22" fill="%23a14a76" fill-opacity="0.10">♡ ⊹ ₊ .♡ ‧₊˚. · ˚⊹ ⋆ ╭◜◝ ͡ ◜◝╮ ⋆╭◜◝ ͡ ◜◝╮. ⊹ ( .◜◡◝ )♡ ( .◜◡◝ ) ₊ ♡ ╰◟◞ ͜ ◟◞╭◜◝ ͡ ◜◝╮ ͜ ◟◞╯. ⊹ ⋆ . ⋆ ♡︎ ⊹ ( .◜◡◝ ) ₊ . ⊹ ♡ ₊ 　⋆ ╰◟◞ ͜ ◟◞╯ . ⊹ ⋆♡ . ⊹ (๑˃ᴗ˂)ﻭ (•̤̀ᵕ•̤́๑)♡ (づ｡◕‿‿◕｡)づ ( ´ ꒳ ` )੭ ( ˘͈ ᵕ ˘͈♡) (ᵔ ᵕ ᵔ)✧ (¬‿¬ ) (￣﹃￣) (≖‿≖ ) (๑˃́ε˂̀๑ ) (⊙_◎) (°ロ°) !? (ﾉಥ益ಥ)ﾉ (╯°□°)╯︵ ┻━┻ (☉｡☉)! ( ˘͈ ᵕ ˘͈ ) (っ´▽)っ (´｡• ω •｡) ⊹(｡•́‿•̀｡)⊹ (ෆ˙ᵕ˙ෆ) ( ͡° ͜ʖ ͡°) ( •͈ᴗ•͈) (๑ˊ͈ ꇴ ˋ͈) (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄) ( ˵ ͡° ͜ʖ ͡°˵ ) ( -_-) zzz (。-ω-)zzz (｡•́︿•̀｡) (︶ω︶) (´-﹏-`；) (￣□￣") (◎_◎;) (ಥ﹏ಥ) (Ｔ▽Ｔ) (´；д；`)</text></svg>');
+  background-repeat: repeat;
+  background-size: auto 120px;
 }
 :root {
   --bg: #0f1115;
