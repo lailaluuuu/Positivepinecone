@@ -134,6 +134,8 @@ const QUOTES = [
   `Consistency outperforms intensity.`,
   `Let things unfold.`,
 ];
+    `Let things unfold.`
+  ];
   `What you ignore shapes you.`,
   `Not everything needs interpretation.`,
   `Clarity comes after movement.`,
@@ -333,10 +335,12 @@ function getMoodEmoji(mood) {
 const THEMES = [
   "dark", "light", "gold", "obsidian", "cyberpunk", "forest", "ocean", "sunset", "nord", "dracula",
   "abyss", "void", "black-gold", "pastel", "rainbow", "retro", "cosmic", "cherry", "mint", "lavender",
-  "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji", "boatballoon", "fieldballoon", "agendanote", "robotheart"
-    // New image themes
-    "robotheart-drawing", "agendanote-paper", "fieldballoon-photo", "boatballoon-photo"
-  ];
+  "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji",
+  // Original picture themes
+  "robotheart", "agendanote", "fieldballoon", "boatballoon",
+  // New image themes
+  "robotheart-drawing", "agendanote-paper", "fieldballoon-photo", "boatballoon-photo"
+];
 
 const KAOMOJIS = [
   // Cute
@@ -518,16 +522,23 @@ async function getPublicEntries() {
 
 async function searchEntries(query) {
   const entries = loadAll();
-  const searchTerm = query.toLowerCase();
-  console.debug && console.debug('searchEntries()', { query, searchTerm });
-  
+  const q = (query || "").trim().toLowerCase();
+  if (!q) {
+    return Object.entries(entries)
+      .map(([id, entry]) => ({ id, ...entry }))
+      .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
+  }
+  const terms = q.split(/\s+/).filter(Boolean);
   return Object.entries(entries)
-    .filter(([id, entry]) => {
-      const content = (entry.content || "").toLowerCase();
-      const tags = entry.tags || [];
-      return content.includes(searchTerm) || tags.some(t => t.toLowerCase().includes(searchTerm));
-    })
     .map(([id, entry]) => ({ id, ...entry }))
+    .filter((item) => {
+      const content = (item.content || "").toLowerCase();
+      const tags = (item.tags || []).map(t => t.toLowerCase());
+      return terms.every((term) => {
+        if (term.startsWith("#")) return tags.includes(term);
+        return content.includes(term) || tags.some(t => t.includes(term));
+      });
+    })
     .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
 }
 
@@ -693,45 +704,35 @@ function importData() {
 
 /* ---------- Bind + Init ---------- */
 function bind() {
+  // Save today's entry
   els.saveBtn?.addEventListener("click", saveToday);
+  // Load today's entry
   els.loadBtn?.addEventListener("click", loadToday);
+  // Export all entries
   els.exportBtn?.addEventListener("click", exportData);
-  els.historyBtn?.addEventListener("click", showHistory);
-  els.searchInput?.addEventListener("input", runSearch);
-  els.clearSearchBtn?.addEventListener("click", clearSearch);
-  els.themeBtn?.addEventListener("click", toggleTheme);
-  els.showAllBtn?.addEventListener("click", showAllHistory);
-
-  // Import button
+  // Import all entries
   const importBtn = document.getElementById('btnImport');
-  if (importBtn) {
-    importBtn.addEventListener('click', importData);
-  }
-
+  if (importBtn) importBtn.addEventListener('click', importData);
+  // Show history
+  els.historyBtn?.addEventListener("click", showHistory);
+  // Show all (password protected)
+  els.showAllBtn?.addEventListener("click", showAllProtected);
+  // Search input
+  els.searchInput?.addEventListener("input", runSearch);
+  // Clear search
+  els.clearSearchBtn?.addEventListener("click", clearSearch);
+  // Theme toggle
+  els.themeBtn?.addEventListener("click", toggleTheme);
   // Mood button clicks
   els.moodBtns?.forEach(btn => {
     btn.addEventListener("click", (e) => {
       selectedMood = btn.dataset.mood;
-      // Update active state
       els.moodBtns.forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
     });
   });
-
   // Ctrl/Cmd+Enter = save
   els.todayInput?.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") saveToday();
   });
-}
-
-function bind() {
-  if (els.saveBtn) els.saveBtn.onclick = saveToday;
-  if (els.historyBtn) els.historyBtn.onclick = showHistory;
-  if (els.exportBtn) els.exportBtn.onclick = exportAll;
-  if (els.loadBtn) els.loadBtn.onclick = importAll;
-  if (els.themeBtn) els.themeBtn.onclick = toggleTheme;
-  if (els.showAllBtn) els.showAllBtn.onclick = showAllProtected;
-  if (els.searchInput) els.searchInput.oninput = runSearch;
-  if (els.clearSearchBtn) els.clearSearchBtn.onclick = clearSearch;
-  if (els.moodBtns) els.moodBtns.forEach(btn => btn.onclick = selectMood);
 }
