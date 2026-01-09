@@ -836,15 +836,23 @@ button.small {
   opacity: 0.8;
 }
 
-/* Tiny theme indicator in bottom-left */
+/* Tiny theme indicator - sits near journal */
 .theme-indicator {
   position: fixed;
-  left: 10px;
-  bottom: 8px;
+  left: clamp(300px, 38vw, 420px);
+  bottom: 14px;
   font-size: 0.7rem;
   color: var(--muted);
-  opacity: 0.6;
+  opacity: 0.65;
   pointer-events: none;
   user-select: none;
   z-index: 20;
+  transition: opacity 0.2s ease, left 0.25s ease;
+}
+@media (max-width: 959px) {
+  .theme-indicator {
+    left: 10px;
+    bottom: 10px;
+    opacity: 0.55;
+  }
 }
