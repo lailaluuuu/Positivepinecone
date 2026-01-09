@@ -1,3 +1,8 @@
+// Initialize theme and event bindings on page load
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof initTheme === 'function') initTheme();
+  if (typeof bind === 'function') bind();
+});
 /* One-Line Journal — app.js (v2 - Local Storage + File Export)
    - Saves entries to browser localStorage (private/searchable)
    - Privacy controls: mark entries as private
