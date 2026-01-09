@@ -1,3 +1,14 @@
+/* Japanese Kaomoji theme */
+:root[data-theme="kaomoji"] {
+  --bg: #fff7f0;
+  --card: #ffeefc;
+  --text: #a14a76;
+  --muted: #bfa2c9;
+  --border: #f7cfe3;
+  --accent: #e48ccf;
+  --accent-soft: #f7e3f0;
+  font-family: 'Noto Sans JP', 'Inter', sans-serif;
+}
 :root {
   --bg: #0f1115;
   --card: #171a21;
