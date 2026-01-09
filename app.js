@@ -379,6 +379,7 @@ function renderEntries(entries, filterQuery = "", includeDeleted = false) {
           <div class="result-content">${escapeHtml(item.content)}</div>
           <div class="result-actions">
             <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.id)}')">Remove from display</button>
+            <button class="btn-small btn-permadelete" onclick="permanentDelete('${escapeHtml(item.id)}')">Delete permanently</button>
           </div>
         </div>
       `;
@@ -566,9 +567,11 @@ function clearSearch() {
 
 async function exportData() {
   const entries = loadAll();
+  // Only export date and content
+  const minimalEntries = Object.values(entries).map(e => ({ date: e.date, content: e.content }));
   const payload = {
     exportedAt: new Date().toISOString(),
-    entries: entries,
+    entries: minimalEntries,
   };
 
   const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
