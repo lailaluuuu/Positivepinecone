@@ -9,6 +9,8 @@
   font-family: 'Inter', sans-serif;
   background: url('backgrounds/robot-heart-balloon.jpg') no-repeat center center fixed, var(--bg);
   background-size: cover;
+  background-blend-mode: lighten;
+  background-position-y: 30%;
 }
 :root[data-theme="agendanote"] {
   --bg: #f7f7f2;
@@ -21,6 +23,8 @@
   font-family: 'Courier New', Courier, monospace;
   background: url('backgrounds/agenda-note.jpg') no-repeat center center fixed, var(--bg);
   background-size: cover;
+  background-blend-mode: lighten;
+  background-position-y: 30%;
 }
 :root[data-theme="fieldballoon"] {
   --bg: #eae7d6;
@@ -33,6 +37,8 @@
   font-family: 'Inter', sans-serif;
   background: url('backgrounds/field-balloon.jpg') no-repeat center center fixed, var(--bg);
   background-size: cover;
+  background-blend-mode: lighten;
+  background-position-y: 30%;
 }
 :root[data-theme="boatballoon"] {
   --bg: #222933;
@@ -45,6 +51,8 @@
   font-family: 'Inter', sans-serif;
   background: url('backgrounds/boat-balloon.jpg') no-repeat center center fixed, var(--bg);
   background-size: cover;
+  background-blend-mode: lighten;
+  background-position-y: 30%;
 }
 :root[data-theme="kaomoji"] {
   --bg: #f8f6fa;
@@ -58,7 +66,8 @@
   /* Kaomoji background */
   background-image: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><text x="10" y="40" font-size="22" fill="%23a14a76" fill-opacity="0.10">♡ ⊹ ₊ .♡ ‧₊˚. · ˚⊹ ⋆ ╭◜◝ ͡ ◜◝╮ ⋆╭◜◝ ͡ ◜◝╮. ⊹ ( .◜◡◝ )♡ ( .◜◡◝ ) ₊ ♡ ╰◟◞ ͜ ◟◞╭◜◝ ͡ ◜◝╮ ͜ ◟◞╯. ⊹ ⋆ . ⋆ ♡︎ ⊹ ( .◜◡◝ ) ₊ . ⊹ ♡ ₊ 　⋆ ╰◟◞ ͜ ◟◞╯ . ⊹ ⋆♡ . ⊹ (๑˃ᴗ˂)ﻭ (•̤̀ᵕ•̤́๑)♡ (づ｡◕‿‿◕｡)づ ( ´ ꒳ ` )੭ ( ˘͈ ᵕ ˘͈♡) (ᵔ ᵕ ᵔ)✧ (¬‿¬ ) (￣﹃￣) (≖‿≖ ) (๑˃́ε˂̀๑ ) (⊙_◎) (°ロ°) !? (ﾉಥ益ಥ)ﾉ (╯°□°)╯︵ ┻━┻ (☉｡☉)! ( ˘͈ ᵕ ˘͈ ) (っ´▽)っ (´｡• ω •｡) ⊹(｡•́‿•̀｡)⊹ (ෆ˙ᵕ˙ෆ) ( ͡° ͜ʖ ͡°) ( •͈ᴗ•͈) (๑ˊ͈ ꇴ ˋ͈) (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄) ( ˵ ͡° ͜ʖ ͡°˵ ) ( -_-) zzz (。-ω-)zzz (｡•́︿•̀｡) (︶ω︶) (´-﹏-`；) (￣□￣") (◎_◎;) (ಥ﹏ಥ) (Ｔ▽Ｔ) (´；д；`)</text></svg>');
   background-repeat: repeat;
-  background-size: auto 120px;
+  background-size: auto 180px;
+  background-position-y: 10%;
 }
 :root {
   --bg: #0f1115;

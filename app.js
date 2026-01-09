@@ -10,33 +10,32 @@
 const $ = (sel) => document.querySelector(sel);
 
 const STORAGE_KEY = "oneLineJournal.entries.v2";
-const THEME_KEY = "oneLineJournal.theme.v2";
-
-// Password for viewing all entries (client-side only). Change as you like.
-const SHOW_ALL_PASSWORD = "letmein";
-
-let selectedMood = "full"; // Default mood selection
-
-const els = {
-  todayInput: $("#todayLine"),
-  saveBtn: $("#btnSave"),
-  loadBtn: $("#btnLoad"),
-  exportBtn: $("#btnExport"),
-  historyBtn: $("#btnHistory"),
-  status: $("#status"),
-  showAllBtn: $("#btnShowAll"),
-  searchInput: $("#search"),
-  clearSearchBtn: $("#btnClearSearch"),
-  results: $("#results"),
-  quote: $("#quoteText"),
-  themeBtn: $("#btnTheme"),
-  moodBtns: document.querySelectorAll(".mood-btn"),
-};
-
 const QUOTES = [
-  `Track the things you can’t ignore.`,
+  // New Quotes (short/original)
+  "Small joys always pay in interest.",
+  "Sometimes the best apology is showing up differently.",
+  "One quiet act of care can change someone’s entire week.",
+  "You don’t need to be loud to be powerful.",
+  "Healing isn’t linear — it’s noodles.",
+  "There is no such thing as wasted kindness.",
+  "Confidence is mostly remembering that everyone else is winging it too.",
+  "Love is often measured in the things you don’t advertise.",
+  "You are allowed to be a beginner at the things you want.",
+  "Peace feels suspicious until you’re used to it.",
+  "Closure is just the moment you stop arguing with the past.",
+  "If it feels too late, it’s probably the perfect time.",
+  "Soft isn’t weak. Soft is precision.",
+  "You don’t find your people — you recognise them.",
+  "The right person won’t need you to shrink.",
+  // Short comfort things
+  "It’s okay if you’re rebuilding.",
+  "Some days are for collecting energy, not using it.",
+  "Rest is productive when you’re not.",
+  "You get better without noticing — slowly, then suddenly.",
+  "You are not meant to feel the same every day.",
+  // Existing (short) quotes
   `What you repeat becomes what you believe.`,
-  `Brief doesn’t mean untrue.`,
+  `A small honest line is still a whole truth.`,
   `Write it gently. Keep it anyway.`,
   `One quiet line from today.`,
   `Something today wants remembering.`,
@@ -44,13 +43,11 @@ const QUOTES = [
   `A single thought worth keeping.`,
   `Open your eyes.`,
   `Remember the little things.`,
-  `My unfinished things aren’t abandoned, they’re mid-air.`,
-  `Stopping for breath is still progress.`,
-  `Not everything needs finishing.`,
+  `You don’t have to finish everything you start.`,
   `Pay attention to what you’re drawn to.`,
   `Most things don’t need fixing.`,
   `Not everything needs a response.`,
-  `Follow what wakes you up.`,
+  `It’s allowed to be unfinished.`,
   `Some days are for maintenance.`,
   `You can move slowly and still arrive.`,
   `This is enough for today.`,
@@ -136,6 +133,32 @@ const QUOTES = [
   `Time tests everything.`,
   `Consistency outperforms intensity.`,
   `Let things unfold.`,
+];
+  `What you ignore shapes you.`,
+  `Not everything needs interpretation.`,
+  `Clarity comes after movement.`,
+  `Silence is information.`,
+  `You already know more than you think.`,
+  `What repeats is worth watching.`,
+  `Time is the real editor.`,
+  `Things settle when you stop forcing them.`,
+  `Attention changes outcomes.`,
+  `Interesting isn’t neutral.`,
+  `Distance clarifies.`,
+  `Nothing real is rushed.`,
+  `You don’t need the whole picture.`,
+  `Meaning accumulates.`,
+  `What lasts is usually quiet.`,
+  `Most change is incremental.`,
+  `This will look different tomorrow.`,
+  `Hold off on conclusions.`,
+  `What feels small now may not stay that way.`,
+  `Notice what you return to.`,
+  `Some decisions are made gradually.`,
+  `What you keep says something.`,
+  `Time tests everything.`,
+  `Consistency outperforms intensity.`,
+  `Let things unfold.`,
   `Small joys always pay in interest.`,
 `Sometimes the best apology is showing up differently.`,
 `One quiet act of care can change someone’s entire week.`,
@@ -156,16 +179,42 @@ const QUOTES = [
 `Rest is productive when nothing else is.`,
 `You get better without noticing — slowly, then suddenly.`,
 `You are not meant to feel the same every day.`,
-
-
-];
-
 const FACTS = [
+  // Space & Universe Facts
+  "The Milky Way is moving through space at 1.3 million mph relative to the cosmic background.",
+  "Black holes aren’t really ‘holes’; they’re regions of space with so much mass that time itself changes shape.",
+  "Saturn would actually float in water (if you found a bathtub 74,000 miles wide).",
+  "If you compress Earth to a black hole, it would be the size of a pea.",
+  "The universe has no centre — everything is moving away from everything because space itself expands.",
+  "The northern lights happen because the Sun throws charged particles at Earth and our magnetic field paints with them.",
+  "Space smells (to returning astronauts) faintly like welding fumes, steak, and burnt metal.",
+  "There are more stars in the universe than grains of sand on Earth — and more atoms in a grain of sand than stars in the universe. Perspective is weird.",
+  // Human + Biology Facts
+  "Tears have different chemical compositions depending on emotion, irritation, or pain.",
+  "Humans are the only animals that blush — Darwin called it the strangest of human expressions.",
+  "Your brain doesn’t finish developing until about age 25 — the last bit is impulse control.",
+  "We take about 23,000 breaths a day without noticing.",
+  "Memory isn’t stored like a file; it’s reconstructed every time, so you rewrite the past as you recall it.",
+  "The human body glows faintly (bioluminescence), just too weak for our eyes to see.",
+  "Hands and cheeks flush when you see someone you like — tiny vasodilation reactions.",
+  // Animals Being Excellent
+  "Crows remember faces and can hold grudges for years.",
+  "Dolphins call each other by name using unique whistles.",
+  "Octopuses dream — and their skin changes colour while they do.",
+  "Sloths only poop once a week and risk their lives to do it. No one knows why.",
+  "Sea otters hold hands while sleeping so they don’t drift apart.",
+  "Elephants have rituals for mourning the dead — they return to bones years later.",
+  // History & Oddities
+  "Cleopatra lived closer to the invention of the iPhone than to the pyramids being built.",
+  "The first alarm clocks only rang at one time (4am), for farmers.",
+  "Medieval jesters could tell the king the truth without being killed — comedy has always been a loophole.",
+  "In Rome, purple dye was so expensive that an emperor banned anyone else from wearing it.",
+  "Paper money originated in China 1,400 years ago because metal coins were too heavy to carry.",
+  // Existing (short) facts
   `Sharks existed before trees.`,
   `Some sharks are older than the rings of Saturn.`,
   `Pigeons were once used to guide missiles.`,
   `Octopuses have three hearts and still get overwhelmed.`,
-  `Crows remember faces for years.`,
   `A group of flamingos is called a flamboyance.`,
   `Octopuses can taste with their arms.`,
   `Bees can recognise human faces.`,
@@ -176,7 +225,6 @@ const FACTS = [
   `Ants hold funerals.`,
   `Sloths can hold their breath longer than dolphins.`,
   `Elephants know when bones are bones.`,
-  `There are more stars in the universe than grains of sand on Earth.`,
   `Saturn could float in water if you had a big enough ocean.`,
   `Light from some stars started travelling before humans existed.`,
   `Time moves slightly faster at the top of your head than your feet.`,
@@ -187,7 +235,6 @@ const FACTS = [
   `There are galaxies we will never be able to reach.`,
   `The universe is expanding and nothing is slowing it down.`,
   `Oxford University is older than the Aztec Empire.`,
-  `Cleopatra lived closer to the moon landing than the pyramids.`,
   `The Eiffel Tower grows in summer.`,
   `Humans glow faintly in the dark.`,
   `Bananas are radioactive.`,
@@ -201,6 +248,10 @@ const FACTS = [
   `Noticing is a skill.`,
   `Facts can feel like secrets.`,
   `Curiosity counts as attention.`,
+  `Learning something small can change the day.`,
+  `Not everything meaningful is emotional.`,
+  `Sometimes the world just hands you a strange detail.`,
+];
   `Learning something small can change the day.`,
   `Not everything meaningful is emotional.`,
   `Sometimes the world just hands you a strange detail.`,
@@ -671,13 +722,14 @@ function bind() {
   });
 }
 
-function init() {
-  initTheme();
-  pickQuote();
-  bind();
-  setStatus("Ready");
-  loadToday();
-  showHistory();
+function bind() {
+  if (els.saveBtn) els.saveBtn.onclick = saveToday;
+  if (els.historyBtn) els.historyBtn.onclick = showHistory;
+  if (els.exportBtn) els.exportBtn.onclick = exportAll;
+  if (els.loadBtn) els.loadBtn.onclick = importAll;
+  if (els.themeBtn) els.themeBtn.onclick = toggleTheme;
+  if (els.showAllBtn) els.showAllBtn.onclick = showAllProtected;
+  if (els.searchInput) els.searchInput.oninput = runSearch;
+  if (els.clearSearchBtn) els.clearSearchBtn.onclick = clearSearch;
+  if (els.moodBtns) els.moodBtns.forEach(btn => btn.onclick = selectMood);
 }
-
-init();
