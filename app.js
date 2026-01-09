@@ -338,56 +338,9 @@ const THEMES = [
   "coral", "electric", "ink", "midnight", "glow", "wine", "silver", "glow-sunset", "deep-ocean", "kaomoji",
   // Original picture themes
   "robotheart", "agendanote", "fieldballoon", "boatballoon",
-  // New image themes
-  "robotheart-drawing", "agendanote-paper", "fieldballoon-photo", "boatballoon-photo"
+  // ...existing quotes...
+  `Let things unfold.`
 ];
-
-const KAOMOJIS = [
-  // Cute
-  '♡', '⊹', '₊', '.♡', '‧₊˚.', '· ˚⊹', '⋆',
-  '╭◜◝ ͡ ◜◝╮', '⋆╭◜◝ ͡ ◜◝╮. ⊹',
-  '( .◜◡◝     )♡', '( .◜◡◝     ) ₊ ♡',
-  '╰◟◞ ͜ ◟◞╭◜◝ ͡ ◜◝╮ ͜ ◟◞╯.  ⊹ ⋆',
-  '.  ⋆ ♡︎ ⊹ ( .◜◡◝      ) ₊  . ⊹ ♡',
-  '₊ 　⋆      ╰◟◞ ͜ ◟◞╯  . ⊹ ⋆♡ . ⊹',
-  '• (๑˃ᴗ˂)ﻭ', '• (•̤̀ᵕ•̤́๑)♡', '• (づ｡◕‿‿◕｡)づ', '• ( ´ ꒳ ` )੭', '• ( ˘͈ ᵕ ˘͈♡)',
-  // Smug / cheeky
-  '• (ᵔ ᵕ ᵔ)✧', '• (¬‿¬ )', '• (￣﹃￣)', '• (≖‿≖ )', '• (๑˃́ε˂̀๑ )',
-  // Chaotic energy
-  '• (⊙_◎)', '• (°ロ°) !?', '• (ﾉಥ益ಥ)ﾉ', '• (╯°□°)╯︵ ┻━┻', '• (☉｡☉)!',
-  // Soft / wholesome
-  '• ( ˘͈ ᵕ ˘͈ )', '• (っ´▽)っ', '• (´｡• ω •｡)', '• ⊹(｡•́‿•̀｡)⊹', '• (ෆ˙ᵕ˙ෆ)',
-  // Flirty / teasing
-  '• ( ͡° ͜ʖ ͡°)', '• ( •͈ᴗ•͈)', '• (๑ˊ͈ ꇴ ˋ͈)', '• (⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)', '• ( ˵ ͡° ͜ʖ ͡°˵ )',
-  // Sleepy / tired
-  '• ( -_-) zzz', '• (。-ω-)zzz', '• (｡•́︿•̀｡)', '• (︶ω︶)', '• (´-﹏-`；)',
-  // Existential / dramatic
-  '• (￣□￣」)', '• (◎_◎;)', '• (ಥ﹏ಥ)', '• (Ｔ▽Ｔ)', '• (´；д；`)',
-];
-
-
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-}
-
-function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (THEMES.includes(saved)) applyTheme(saved);
-  else applyTheme("dark");
-}
-
-function toggleTheme() {
-  const current = document.documentElement.dataset.theme || "dark";
-  const idx = THEMES.indexOf(current);
-  const next = THEMES[(idx + 1) % THEMES.length];
-  applyTheme(next);
-  localStorage.setItem(THEME_KEY, next);
-}
-
-/* ---------- Quote / Fact (50/50) ---------- */
-function pickNudge() {
-  // 50% quotes, 50% facts
-  const useQuote = Math.random() < 0.5;
   return useQuote
     ? QUOTES[Math.floor(Math.random() * QUOTES.length)]
     : FACTS[Math.floor(Math.random() * FACTS.length)];
@@ -418,107 +371,79 @@ function escapeHtml(s) {
     .replaceAll("'", "&#039;");
 }
 
-/* ---------- Rendering ---------- */
-function renderEntries(entries, filterQuery = "", includeDeleted = false) {
-  if (!entries || Object.keys(entries).length === 0) {
-    return `<div class="muted">🐢</div>`;
-  }
-
-  // Convert to array and sort by creation time descending
-  const entriesArray = Object.entries(entries)
-    .map(([id, entry]) => ({ id, ...entry }))
-    .filter(item => includeDeleted ? true : !item.isDeleted)
-    .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
-
-  const q = (filterQuery || "").trim().toLowerCase();
-
-  let filtered = entriesArray;
-  if (q) {
-    const terms = q.split(/\s+/).filter(Boolean);
-    filtered = entriesArray.filter((item) => {
-      const content = (item.content || "").toLowerCase();
-      const tags = (item.tags || []).map(t => t.toLowerCase());
-      return terms.every((term) => {
-        if (term.startsWith("#")) return tags.includes(term);
-        return content.includes(term) || tags.some(t => t.includes(term));
-      });
-    });
-  }
-
-  if (filtered.length === 0) {
-    return `<div class="muted">No matches — try #work or quiet</div>`;
-  }
-
-  return filtered
-    .map((item) => {
-      const privacyBadge = item.isPrivate ? `<span class="badge-private">🔒 Private</span>` : '';
-      const tagsHtml = item.tags && item.tags.length > 0 ? `<span class="tags">${item.tags.map(t => escapeHtml(t)).join(' ')}</span>` : '';
-      const moodEmoji = getMoodEmoji(item.mood || 'full');
-      return `
-        <div class="result-item" data-entry-id="${escapeHtml(item.id)}">
-          <div class="result-date">${escapeHtml(item.date)} <span class="mood-cup">${moodEmoji}</span> ${tagsHtml} ${privacyBadge}</div>
-          <div class="result-content">${escapeHtml(item.content)}</div>
-          <div class="result-actions">
-            <button class="btn-small btn-delete" onclick="deleteFromDisplay('${escapeHtml(item.id)}')">Remove from display</button>
-            <button class="btn-small btn-permadelete" onclick="permanentDelete('${escapeHtml(item.id)}')">Delete permanently</button>
-          </div>
-        </div>
-      `;
-    })
-    .join("");
-}
-
-/* ---------- Storage ---------- */
-function loadAll() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveAll(obj) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-}
-
-/* ---------- API Calls (local storage) ---------- */
-async function saveEntry(date, content, isPrivate, tags, mood = "full") {
-  // Store entries by unique timestamp id so multiple entries per day are allowed.
-  const entries = loadAll();
-  const id = new Date().toISOString();
-  entries[id] = {
-    id,
-    date: todayISO(),
-    content,
-    isPrivate: isPrivate || false,
-    tags: Array.isArray(tags) ? tags : (tags ? tags.split(/\s+/) : []),
-    mood: mood || "full",
-    isDeleted: false,
-    createdAt: id,
-    updatedAt: new Date().toISOString(),
-  };
-  saveAll(entries);
-  return { success: true, id };
-}
-
-async function getEntry(date) {
-  // Return the most recent non-deleted entry for a given ISO date (today)
-  const entries = loadAll();
-  const matches = Object.entries(entries)
-    .map(([id, entry]) => ({ id, ...entry }))
-    .filter(e => !e.isDeleted && e.date === date)
-    .sort((a, b) => (b.createdAt || b.updatedAt || '').localeCompare(a.createdAt || a.updatedAt || ''));
-
-  return matches.length ? matches[0] : null;
-}
-
-async function getPublicEntries() {
-  const entries = loadAll();
-  return Object.entries(entries)
-    .filter(([_, entry]) => !entry.isDeleted)
-    .map(([id, entry]) => ({ id, ...entry }));
-}
+const FACTS = [
+  // Space & Universe Facts
+  "The Milky Way is moving through space at 1.3 million mph relative to the cosmic background.",
+  "Black holes aren’t really ‘holes’; they’re regions of space with so much mass that time itself changes shape.",
+  "Saturn would actually float in water (if you found a bathtub 74,000 miles wide).",
+  "If you compress Earth to a black hole, it would be the size of a pea.",
+  "The universe has no centre — everything is moving away from everything because space itself expands.",
+  "The northern lights happen because the Sun throws charged particles at Earth and our magnetic field paints with them.",
+  "Space smells (to returning astronauts) faintly like welding fumes, steak, and burnt metal.",
+  "There are more stars in the universe than grains of sand on Earth — and more atoms in a grain of sand than stars in the universe. Perspective is weird.",
+  // Human + Biology Facts
+  "Tears have different chemical compositions depending on emotion, irritation, or pain.",
+  "Humans are the only animals that blush — Darwin called it the strangest of human expressions.",
+  "Your brain doesn’t finish developing until about age 25 — the last bit is impulse control.",
+  "We take about 23,000 breaths a day without noticing.",
+  "Memory isn’t stored like a file; it’s reconstructed every time, so you rewrite the past as you recall it.",
+  "The human body glows faintly (bioluminescence), just too weak for our eyes to see.",
+  "Hands and cheeks flush when you see someone you like — tiny vasodilation reactions.",
+  // Animals Being Excellent
+  "Crows remember faces and can hold grudges for years.",
+  "Dolphins call each other by name using unique whistles.",
+  "Octopuses dream — and their skin changes colour while they do.",
+  "Sloths only poop once a week and risk their lives to do it. No one knows why.",
+  "Sea otters hold hands while sleeping so they don’t drift apart.",
+  "Elephants have rituals for mourning the dead — they return to bones years later.",
+  // History & Oddities
+  "Cleopatra lived closer to the invention of the iPhone than to the pyramids being built.",
+  "The first alarm clocks only rang at one time (4am), for farmers.",
+  "Medieval jesters could tell the king the truth without being killed — comedy has always been a loophole.",
+  "In Rome, purple dye was so expensive that an emperor banned anyone else from wearing it.",
+  "Paper money originated in China 1,400 years ago because metal coins were too heavy to carry.",
+  // Existing (short) facts
+  `Sharks existed before trees.`,
+  `Some sharks are older than the rings of Saturn.`,
+  `Pigeons were once used to guide missiles.`,
+  `Octopuses have three hearts and still get overwhelmed.`,
+  `A group of flamingos is called a flamboyance.`,
+  `Octopuses can taste with their arms.`,
+  `Bees can recognise human faces.`,
+  `Some turtles breathe through their butts.`,
+  `Wombat poop is cube-shaped.`,
+  `Butterflies remember being caterpillars.`,
+  `Rats laugh when tickled.`,
+  `Ants hold funerals.`,
+  `Sloths can hold their breath longer than dolphins.`,
+  `Elephants know when bones are bones.`,
+  `Saturn could float in water if you had a big enough ocean.`,
+  `Light from some stars started travelling before humans existed.`,
+  `Time moves slightly faster at the top of your head than your feet.`,
+  `You are made of atoms formed in dying stars.`,
+  `Space smells faintly of burnt steak.`,
+  `Venus flytraps can count.`,
+  `Neutron stars are so dense a teaspoon would weigh billions of tonnes.`,
+  `There are galaxies we will never be able to reach.`,
+  `The universe is expanding and nothing is slowing it down.`,
+  `Oxford University is older than the Aztec Empire.`,
+  `The Eiffel Tower grows in summer.`,
+  `Humans glow faintly in the dark.`,
+  `Bananas are radioactive.`,
+  `The shortest war lasted under an hour.`,
+  `Music can reduce the sensation of pain.`,
+  `Your brain predicts the next note before it happens.`,
+  `Some songs feel nostalgic even the first time you hear them.`,
+  `Fonts can change how things taste.`,
+  `Silence in music is intentional.`,
+  `Stories change when retold, even by the same person.`,
+  `Noticing is a skill.`,
+  `Facts can feel like secrets.`,
+  `Curiosity counts as attention.`,
+  `Learning something small can change the day.`,
+  `Not everything meaningful is emotional.`,
+  `Sometimes the world just hands you a strange detail.`
+];
 
 async function searchEntries(query) {
   const entries = loadAll();
